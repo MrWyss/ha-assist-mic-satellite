@@ -69,7 +69,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 ### PCB
 
 - [Schematic](<pcb/Mic HAT for M5Stack Atom/Mic HAT for M5Stack Atom.kicad_sch>)
-- [PCBWay Affiliate](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html")
+- [PCBWay Affiliate](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html)
 
 <img src="docs/assets/wiring.png" alt="wiring" style="width: 500px;" />
 
