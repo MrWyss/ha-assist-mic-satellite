@@ -53,7 +53,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 
 - **INMP441** MEMS Microphone - I2S ~2$
 - [M5Stack AtomS3](https://docs.m5stack.com/en/core/AtomS3) ~15$
-- [PCBWay Affiliate](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html")
+- [PCB](#pcb) ~5$ + Shipping
 - Case
 - INMP441 Breakout Board (usually comes with PinSockets) ~2$
   - 2x 1x03 PinSocket 2.54mm (J3, J4)
