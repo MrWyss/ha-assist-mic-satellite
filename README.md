@@ -81,7 +81,21 @@ G5 (GPIO5) | WS
 G6 (GPIO6) | SCK
 G7 (GPIO7) | SD
 
+
+### Case
+
+The case was designed in Fusion 360 and exported as [3mf files](case/3mf) and [step files](case/step). It shouldn't need any supports for 3d printing, but I recommend printing it with your high detail settings. It is rather small. 
+
+
+
+
+- [Step Files](case/)
+
+
+
 ## Assembly
+
+![MicHatCase v15](https://github.com/user-attachments/assets/4bc6dd32-d535-4368-bd40-c113e375623f)
 
 Back View            |  Front View
 :-------------------------:|:-------------------------:
