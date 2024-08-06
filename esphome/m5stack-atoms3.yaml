@@ -1,0 +1,729 @@
+#TODO:
+# - Timer Page
+# - Timer Tests / Update with voice and cancle with voice
+# - silence sound file location
+# - 
+
+
+substitutions:
+  loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
+  idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
+  listening_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/listening_320_240.png
+  thinking_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/thinking_320_240.png
+  replying_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/replying_320_240.png
+  error_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
+  timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
+  silence_sound_file: media-source://media_source/local/10-seconds-of-silence.mp3
+  loading_illustration_background_color: "000000"
+  idle_illustration_background_color: "000000"
+  listening_illustration_background_color: "FFFFFF"
+  thinking_illustration_background_color: "FFFFFF"
+  replying_illustration_background_color: "FFFFFF"
+  error_illustration_background_color: "000000"
+  mute_on_circle_color: "F7931E"
+  #mute_off_circle_color: "41B3EF"
+
+  voice_assist_idle_phase_id: "1"
+  voice_assist_listening_phase_id: "2"
+  voice_assist_thinking_phase_id: "3"
+  voice_assist_replying_phase_id: "4"
+  voice_assist_not_ready_phase_id: "10"
+  voice_assist_error_phase_id: "11"
+  voice_assist_muted_phase_id: "12"
+  voice_assist_timer_finished_phase_id: "13"
+
+  allowed_characters: " !#%'()+,-./0123456789:;<>?@ABCDEFGHIJKLMNOPQRSTUVWYZ[]_abcdefghijklmnopqrstuvwxyz{|}°²³µ¿ÁÂÄÅÉÖÚßàáâãäåæçèéêëìíîðñòóôõöøùúûüýþāăąćčďĐđēėęěğĮįıļľŁłńňőřśšťũūůűųźŻżŽžơưșțΆΈΌΐΑΒΓΔΕΖΗΘΚΜΝΠΡΣΤΥΦάέήίαβγδεζηθικλμνξοπρςστυφχψωϊόύώАБВГДЕЖЗИКЛМНОПРСТУХЦЧШЪЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяёђєіїјљњћאבגדהוזחטיכלםמןנסעפץצקרשת،ءآأإئابةتجحخدذرزسشصضطظعغفقكلمنهوىيٹپچڈکگںھہیےংকচতধনফবযরলশষস়ািু্చయలిెొ్ംഅആഇഈഉഎഓകഗങചജഞടഡണതദധനപഫബഭമയരറലളവശസഹാിീുൂെേൈ്ൺൻർൽൾაბგდევზთილმნოპრსტუფქყშჩცძჭხạảấầẩậắặẹẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỳ—、一上不个中为主乾了些亮人任低佔何作供依侧係個側偵充光入全关冇冷几切到制前動區卧厅厨及口另右吊后吗启吸呀咗哪唔問啟嗎嘅嘛器圍在场執場外多大始安定客室家密寵对將小少左已帘常幫幾库度庫廊廚廳开式後恆感態成我戲戶户房所扇手打执把拔换掉控插摄整斯新明是景暗更最會有未本模機檯櫃欄次正氏水沒没洗活派温測源溫漏潮激濕灯為無煙照熱燈燥物狀玄现現瓦用發的盞目着睡私空窗立笛管節簾籬紅線红罐置聚聲脚腦腳臥色节著行衣解設調請謝警设调走路車车运連遊運過道邊部都量鎖锁門閂閉開關门闭除隱離電震霧面音頂題顏颜風风食餅餵가간감갔강개거게겨결경고공과관그금급기길깥꺼껐꼽나난내네놀누는능니다닫담대더데도동됐되된됨둡드든등디때떤뜨라래러렇렌려로료른를리림링마많명몇모무문물뭐바밝방배변보부불블빨뽑사산상색서설성세센션소쇼수스습시신실싱아안않알았애야어얼업없었에여연열옆오온완외왼요운움워원위으은을음의이인일임입있작잠장재전절정제져조족종주줄중줘지직진짐쪽차창천최추출충치침커컴켜켰쿠크키탁탄태탬터텔통트튼티파팬퍼폰표퓨플핑한함해했행혀현화활후휴힘，？"
+
+globals:
+  - id: init_in_progress
+    type: bool
+    restore_value: false
+    initial_value: "true"
+
+  - id: voice_assistant_phase
+    type: int
+    restore_value: false
+    initial_value: ${voice_assist_not_ready_phase_id}
+
+
+esphome:
+  name: m5stack-atoms3
+  friendly_name: M5Stack AtomS3
+  name_add_mac_suffix: true
+  on_boot:
+    priority: 600
+    then:
+      - script.execute: draw_display
+      - micro_wake_word.start
+      - delay: 30s
+      - if:
+          condition:
+            lambda: return id(init_in_progress);
+          then:
+            - lambda: id(init_in_progress) = false;
+            - script.execute: draw_display
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf #arduino
+
+# Enable logging
+logger:
+  level: DEBUG
+  logs:
+    component: ERROR
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: YOURAPIKEY
+
+ota:
+  - platform: esphome
+    password: YOUROTAPASSWORD
+
+#esp32_ble:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "M5Stack-AtomS3 Fallback Hotspot"
+    password: YOURAPPPASSWORD
+  on_connect:
+    - script.execute: draw_display
+    #- delay: 5s  # Gives time for improv results to be transmitted
+    #- ble.disable:
+  on_disconnect:
+    - script.execute: draw_display
+    #- ble.enable:
+
+captive_portal:
+
+button:
+  - platform: safe_mode
+    id: button_safe_mode
+    name: Safe Mode Boot
+    entity_category: diagnostic
+
+  - platform: factory_reset
+    id: factory_reset_btn
+    name: Factory reset
+    entity_category: diagnostic
+
+#G4=IR
+#remote_transmitter:
+#  pin: GPIO4
+#  carrier_duty_percent: 50%
+
+#G41=Button
+binary_sensor:
+  - platform: status
+    name: "Node Status"
+    id: system_status
+    entity_category: diagnostic
+  
+  - platform: gpio
+    name: Button
+    entity_category: diagnostic
+    pin:
+      number: GPIO41
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+    filters:
+      - delayed_off: 10ms
+    on_click:
+      min_length: 50ms
+      max_length: 350ms
+      then:
+        - logger.log: Button Clicked
+        - if:
+            condition:
+              switch.is_on: timer_ringing
+            then:
+              switch.turn_off: timer_ringing
+
+    on_double_click: 
+      then:
+        - switch.toggle: mute
+        
+    on_multi_click:
+      - timing:
+          - ON for at least 10s
+        then:
+          - button.press: factory_reset_btn
+
+#sensor:
+#  - platform: mpu6886
+#    address: 0x68
+#    accel_x:
+#      name: "Accel X"
+#    accel_y:
+#      name: "Accel Y"
+#    accel_z:
+#      name: "Accel z"
+#    gyro_x:
+#      name: "Gyro X"
+#    gyro_y:
+#      name: "Gyro Y"
+#    gyro_z:
+#      name: "Gyro z"
+#    temperature:
+#      name: "Temperature"
+image:
+  - file: ${error_illustration_file}
+    id: casita_error
+    resize: 128x128
+    type: RGB24
+    use_transparency: true
+  
+  - file: ${idle_illustration_file}
+    id: casita_idle
+    resize: 128x128
+    type: RGB24
+    use_transparency: true
+  
+  - file: ${listening_illustration_file}
+    id: casita_listening
+    resize: 128x128
+    type: RGB24
+    use_transparency: true
+  
+  - file: ${thinking_illustration_file}
+    id: casita_thinking
+    resize: 128x128
+    type: RGB24
+    use_transparency: true
+  
+  - file: ${replying_illustration_file}
+    id: casita_replying
+    resize: 128x128
+    type: RGB24
+    use_transparency: true
+  
+  - file: ${loading_illustration_file}
+    id: casita_initializing
+    resize: 128x128
+    type: RGB24
+    use_transparency: true
+
+  - file: mdi:microphone-off
+    id: mdi_mute_on
+    resize: 30x30
+    use_transparency: true
+
+  #- file: mdi:microphone
+  #  id: mdi_mute_off
+  #  resize: 30x30
+  #  use_transparency: true
+
+  #- id: error_no_wifi
+  #  file: https://github.com/esphome/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-wifi.png
+  #  resize: 128x128
+  #  type: RGB24
+  #  use_transparency: true
+  
+  #- id: error_no_ha
+  #  file: https://github.com/esphome/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-ha.png
+  #  resize: 128x128
+  #  type: RGB24
+  #  use_transparency: true
+
+
+font:
+  - id: font_request
+    file:
+      type: gfonts
+      family: Figtree
+      weight: 300
+      italic: true
+    glyphs: ${allowed_characters}
+    size: 12
+  
+  - id: font_response
+    file:
+      type: gfonts
+      family: Figtree
+      weight: 300
+    glyphs: ${allowed_characters}
+    size: 12
+
+text_sensor:
+  - id: text_request
+    platform: template
+    on_value:
+      lambda: |-
+        if(id(text_request).state.length()>32) {
+          std::string name = id(text_request).state.c_str();
+          std::string truncated = esphome::str_truncate(name.c_str(),31);
+          id(text_request).state = (truncated+"...").c_str();
+        }
+
+  - id: text_response
+    platform: template
+    on_value:
+      lambda: |-
+        if(id(text_response).state.length()>32) {
+          std::string name = id(text_response).state.c_str();
+          std::string truncated = esphome::str_truncate(name.c_str(),31);
+          id(text_response).state = (truncated+"...").c_str();
+        }
+
+text:      
+  - platform: template
+    id: mp_id
+    mode: text
+    name: Media Player Entity id
+    entity_category: config
+    optimistic: true
+    restore_value: true
+    initial_value: media_player.office
+    on_value:
+      then:
+        - logger.log:
+            format: "%s"
+            args: ["x.c_str()"]
+        
+
+color:
+  - id: idle_color
+    hex: ${idle_illustration_background_color}
+  - id: listening_color
+    hex: ${listening_illustration_background_color}
+  - id: thinking_color
+    hex: ${thinking_illustration_background_color}
+  - id: replying_color
+    hex: ${replying_illustration_background_color}
+  - id: loading_color
+    hex: ${loading_illustration_background_color}
+  - id: error_color
+    hex: ${error_illustration_background_color}
+  - id: mute_on_color
+    hex: ${mute_on_circle_color}
+  #- id: mute_off_color
+  #  hex: ${mute_off_circle_color}
+
+#time:
+#  platform: homeassistant
+#  id: ha_time
+
+#i2c:
+#  - id: bus_a
+#    sda: GPIO38
+#    scl: GPIO39
+
+spi:
+  clk_pin: 17
+  mosi_pin: 21
+
+switch:
+  - platform: gpio
+    pin: 16
+    #name: "Backlight"
+    id: backlight
+    restore_mode: ALWAYS_ON
+
+  - platform: template
+    name: Display conversation
+    id: display_conversation
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    entity_category: config
+
+  - platform: template
+    name: Mute
+    id: mute
+    icon: "mdi:microphone-off"
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: config
+    on_turn_off:
+      - if:
+          condition:
+            lambda: return !id(init_in_progress);
+          then:
+            - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+            - if:
+                condition:
+                  not:
+                    - micro_wake_word.is_running
+                then:
+                  - micro_wake_word.start
+            - script.execute: draw_display
+    on_turn_on:
+      - if:
+          condition:
+            lambda: return !id(init_in_progress);
+          then:
+            - micro_wake_word.stop
+            - lambda: id(voice_assistant_phase) = ${voice_assist_muted_phase_id};
+            - script.execute: draw_display
+
+  - platform: template
+    id: timer_ringing
+    optimistic: true
+    internal: true
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 5min
+      - switch.turn_off: timer_ringing
+
+i2s_audio:
+  - id: i2s_in # For microphone
+    i2s_lrclk_pin: GPIO5  #WS 
+    i2s_bclk_pin: GPIO6 #SCK
+
+microphone:
+  - platform: i2s_audio
+    i2s_audio_id: i2s_in
+    id: va_mic
+    i2s_din_pin: GPIO7 #SD
+    adc_type: external
+    channel: left
+    pdm: false
+    bits_per_sample: 32bit
+    #on_data:
+    #  - logger.log:
+    #      format: "Received %d bytes"
+    #      args: ['x.size()']
+
+micro_wake_word:
+  vad:
+  models:
+    - model: okay_nabu 
+  on_wake_word_detected:
+    - voice_assistant.start: 
+        wake_word: !lambda return wake_word; 
+
+voice_assistant:
+  id: va
+  microphone: va_mic
+  #speaker: s3_speaker
+  noise_suppression_level: 2
+  auto_gain: 31dBFS
+  volume_multiplier: 2.0
+  #vad_threshold: 3
+
+  on_client_connected: # An automation to perform when Home Assistant has connected and is waiting for Voice Assistant commands.
+    - logger.log: "on_client_connected"
+    - if:
+        condition:
+          switch.is_off: mute
+        then:
+          #- wait_until:
+          #    not: ble.enabled
+          - micro_wake_word.start
+          - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+        else:
+          - lambda: id(voice_assistant_phase) = ${voice_assist_muted_phase_id};
+    - lambda: id(init_in_progress) = false;
+    - script.execute: draw_display
+  
+  on_start: # An automation to perform when the assist pipeline is started.
+    - logger.log: "on_start"
+
+  # I guess not called with open wake word
+  on_wake_word_detected: # An automation to perform when the assist pipeline has detected a wake word.
+    - logger.log: "on_wake_word_detected"
+  
+  on_listening: # An automation to perform when the voice assistant microphone starts listening.
+    - logger.log: "on_listening"
+    - homeassistant.service:
+        service: media_player.play_media
+        data:
+          entity_id: !lambda 'return id(mp_id).state.c_str();'
+          media_content_id: ${silence_sound_file}
+          media_content_type: "music"
+          announce: "true"
+    - lambda: id(voice_assistant_phase) = ${voice_assist_listening_phase_id};
+    - text_sensor.template.publish:
+        id: text_request
+        state: "..."
+    - text_sensor.template.publish:
+        id: text_response
+        state: "..."
+    - script.execute: draw_display
+
+  on_stt_vad_start: # An automation to perform when voice activity detection starts speech-to-text processing.
+    - logger.log: "on_stt_vad_start"
+
+  on_stt_vad_end: # An automation to perform when voice activity detection ends speech-to-text processing.
+    - logger.log: "on_stt_vad_end"
+
+  on_stt_end: # An automation to perform when the voice assistant has finished speech-to-text. The resulting text is available to
+    - logger.log: "on_stt_end"
+    - text_sensor.template.publish:
+        id: text_request
+        state: !lambda return x;
+    - lambda: id(voice_assistant_phase) = ${voice_assist_thinking_phase_id};
+    - script.execute: draw_display
+
+  on_intent_start: # An automation to perform when intent processing starts.
+    - logger.log: "on_intent_start"
+  
+  on_intent_end: # An automation to perform when intent processing ends.
+    - logger.log: "on_intent_end"
+  
+  on_tts_start: # An automation to perform when the voice assistant has started text-to-speech. The text to be spoken is available to automations as the variable x.
+    - logger.log: "on_tts_start"
+    - text_sensor.template.publish:
+        id: text_response
+        state: !lambda return x;
+    - lambda: id(voice_assistant_phase) = ${voice_assist_replying_phase_id};
+    - script.execute: draw_display
+   
+  on_tts_end: # An automation to perform when the voice assistant has finished text-to-speech. A URL containing the audio response is available to automations as the variable x.
+    - logger.log: "on_tts_end"
+    - logger.log:
+        format: "Media Player id: %s"
+        args: ["id(mp_id).state.c_str()"]
+    - homeassistant.service:
+        service: media_player.play_media
+        data:
+          entity_id: !lambda 'return id(mp_id).state.c_str();'
+          media_content_id: !lambda 'return x.c_str();'
+          media_content_type: "music"
+          announce: "true"
+      
+  on_end: # An automation to perform when the voice assistant is finished all tasks.
+    - logger.log: "on_end"
+    - delay: 5s
+    - micro_wake_word.start
+    - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+    - script.execute: draw_display
+  
+# Speaker Needed
+#  on_tts_stream_start: # An automation to perform when audio stream (voice response) playback starts. Requires speaker to be configured.
+#    - logger.log: "on_tts_stream_start"
+
+#  
+#  on_tts_stream_end: # An automation to perform when audio stream (voice response) playback ends. Requires speaker to be configured.
+#    - logger.log: "on_tts_stream_start"
+
+
+  on_idle: # An automation to perform when the voice assistant is idle (no other actions/states are in progress).
+    - logger.log: "on_idle"
+
+  on_error: # An automation to perform when the voice assistant has encountered an error. The error code and message are available to automations as the variables code and message.
+    - logger.log: "on_error"
+    - if:
+        condition:
+          lambda: return !id(init_in_progress);
+        then:
+          - lambda: id(voice_assistant_phase) = ${voice_assist_error_phase_id};
+          - script.execute: draw_display
+          - delay: 1s
+          - if:
+              condition:
+                switch.is_off: mute
+              then:
+                - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+              else:
+                - lambda: id(voice_assistant_phase) = ${voice_assist_muted_phase_id};
+          - script.execute: draw_display
+
+  on_client_disconnected : # An automation to perform when Home Assistant disconnects from the Voice Assistant.
+    - logger.log: "on_client_disconnected"
+    - lambda: id(voice_assistant_phase) = ${voice_assist_not_ready_phase_id};
+    - script.execute: draw_display
+    - voice_assistant.stop
+    - micro_wake_word.stop
+
+  on_timer_started: # An automation to perform when a voice assistant timer has finished. The timer is available as timer of type
+    - logger.log: "on_timer_started"
+
+  on_timer_cancelled: # An automation to perform when a voice assistant timer has been cancelled. The timer is available as timer of type voice_assistant::Timer.
+    - logger.log: "on_timer_cancelled"
+    - switch.turn_off: timer_ringing
+    - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+    - script.execute: draw_display
+
+  on_timer_updated: # An automation to perform when a voice assistant timer has been updated (paused/resumed/duration changed). The timer is available as timer of type voice_assistant::Timer.
+    - logger.log: "on_timer_updated"
+
+  on_timer_tick: # An automation to perform when the voice assistant timers tick is triggered. This is called every 1 second while there are timers on this device. The timers are available as timers which is a std::vector (array) of type voice_assistant::Timer.
+    - logger.log: "on_timer_tick"
+
+  on_timer_finished: # An automation to perform when a voice assistant timer has finished. The timer is available as timer of type voice_assistant::Timer.
+    - logger.log: "on_timer_finished"
+    - script.execute: play_alarm
+
+
+display:
+  - platform: ili9xxx
+    model: ST7789V
+    id: s3_lcd
+    cs_pin: 15
+    dc_pin: 33
+    reset_pin: 34
+    rotation: 180
+    invert_colors: true
+    update_interval: 1s
+    dimensions:
+      height: 128
+      width: 128
+      offset_height: 1
+      offset_width: 2
+    pages:
+      - id: idle_page
+        lambda: |-
+          it.fill(id(idle_color));
+          it.image((it.get_width() /2 ), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+          //it.image(25, 25, id(mdi_mute_off), ImageAlign::CENTER, id(mute_off_color));
+          //it.filled_circle(20, 20, 2, mute_off_color);
+      
+      - id: listening_page
+        lambda: |-
+          it.fill(id(listening_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_listening), ImageAlign::CENTER);
+      
+      - id: thinking_page
+        lambda: |-
+          it.fill(id(thinking_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_thinking), ImageAlign::CENTER);
+          if (id(display_conversation).state) {
+              it.filled_rectangle(10, 10, 108, 15, Color::WHITE);
+              it.rectangle(10, 10, 108, 15, Color::BLACK);
+              it.printf(15, 12, id(font_request), Color::BLACK, "%s", id(text_request).state.c_str());
+          }
+      
+      - id: replying_page
+        lambda: |-
+          it.fill(id(replying_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_replying), ImageAlign::CENTER);
+          if (id(display_conversation).state) {
+              it.filled_rectangle(10, 10, 108, 15, Color::WHITE);
+              it.rectangle(10, 10, 108, 15, Color::BLACK);
+              it.filled_rectangle(10, 95, 108, 15, Color::WHITE);
+              it.rectangle(10, 95, 108, 15, Color::BLACK);
+              it.printf(15, 12, id(font_request), Color::BLACK, "%s", id(text_request).state.c_str());
+              it.printf(15, 97, id(font_response), Color::BLACK, "%s", id(text_response).state.c_str());
+          }
+      
+      - id: error_page
+        lambda: |-
+          it.fill(id(error_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
+          if (id(display_conversation).state) {
+              it.filled_rectangle(10, 10, 108, 15, Color::WHITE);
+              it.rectangle(10, 10, 108, 15, Color::BLACK);
+              it.printf(15, 12, id(font_request), Color::BLACK, "%s", "Error");
+          }
+      
+      - id: no_ha_page
+        lambda: |-
+          it.fill(id(error_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
+          if (id(display_conversation).state) {
+              it.filled_rectangle(10, 10, 108, 15, Color::WHITE);
+              it.rectangle(10, 10, 108, 15, Color::BLACK);
+              it.printf(15, 12, id(font_request), Color::BLACK, "%s", "No HA");
+          }
+      - id: timer_finished_page
+        lambda: |-
+          it.fill(id(error_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
+          if (id(display_conversation).state) {
+              it.filled_rectangle(10, 10, 108, 15, Color::WHITE);
+              it.rectangle(10, 10, 108, 15, Color::BLACK);
+              it.printf(15, 12, id(font_request), Color::BLACK, "%s", "Timer is up");
+          }
+      - id: initializing_page
+        lambda: |-
+          it.fill(id(loading_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_initializing), ImageAlign::CENTER);
+      
+      - id: muted_page
+        lambda: |-
+          it.fill(id(idle_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+          //it.filled_circle(20, 20, 2, mute_on_color);
+          it.image(25, 25, id(mdi_mute_on), ImageAlign::CENTER, id(mute_on_color));
+
+script:
+  - id: play_alarm
+    then: 
+      - switch.turn_on: timer_ringing
+      - lambda: id(voice_assistant_phase) = ${voice_assist_timer_finished_phase_id};
+      - script.execute: draw_display
+      #- wait_until:
+      #      not:
+      #        microphone.is_capturing:
+      - while:
+          condition:
+            switch.is_on: timer_ringing
+          then:
+            - homeassistant.service:
+                service: media_player.play_media
+                data:
+                  entity_id: !lambda 'return id(mp_id).state.c_str();'
+                  media_content_id: ${timer_sound_file}
+                  media_content_type: "music"
+                  announce: "true"
+            - delay: 4s
+      - switch.turn_off: timer_ringing
+      - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+      - script.execute: draw_display
+
+    
+  - id: draw_display
+    then:
+      - if:
+          condition:
+            lambda: return !id(init_in_progress);
+          then:
+            - if:
+                condition:
+                  wifi.connected:
+                then:
+                  - if:
+                      condition:
+                        api.connected:
+                      then:
+                        - lambda: |
+                            switch(id(voice_assistant_phase)) {
+                              case ${voice_assist_listening_phase_id}:
+                                id(s3_lcd).show_page(listening_page);
+                                id(s3_lcd).update();
+                                break;
+                              case ${voice_assist_thinking_phase_id}:
+                                id(s3_lcd).show_page(thinking_page);
+                                id(s3_lcd).update();
+                                break;
+                              case ${voice_assist_replying_phase_id}:
+                                id(s3_lcd).show_page(replying_page);
+                                id(s3_lcd).update();
+                                break;
+                              case ${voice_assist_error_phase_id}:
+                                id(s3_lcd).show_page(error_page);
+                                id(s3_lcd).update();
+                                break;
+                              case ${voice_assist_muted_phase_id}:
+                                id(s3_lcd).show_page(muted_page);
+                                id(s3_lcd).update();
+                                break;
+                              case ${voice_assist_not_ready_phase_id}:
+                                id(s3_lcd).show_page(no_ha_page);
+                                id(s3_lcd).update();
+                                break;
+                               case ${voice_assist_timer_finished_phase_id}:
+                                id(s3_lcd).show_page(timer_finished_page);
+                                id(s3_lcd).update();
+                                break;                             
+                              default:
+                                id(s3_lcd).show_page(idle_page);
+                                id(s3_lcd).update();
+                            }
+                      else:
+                        - display.page.show: no_ha_page
+                        - component.update: s3_lcd
+                else:
+                  - display.page.show: no_ha_page
+                  - component.update: s3_lcd
+          else:
+            - display.page.show: initializing_page
+            - component.update: s3_lcd
