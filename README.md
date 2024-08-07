@@ -12,7 +12,7 @@
 
 3D Illustration            |  Config Options
 :-------------------------:|:-------------------------:
-![Render](docs/assets/case_render.png) | ![Esphome Configurations](docs/assets/HAConfig.png)
+![Render](docs/assets/case_render.png) | ![ESPhome Configurations](docs/assets/HAConfig.png)
 
 Muted            |  Intent in Action
 :-------------------------:|:-------------------------:
@@ -51,15 +51,14 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 
 ### BOM
 
-- **INMP441** MEMS Microphone - I2S ~2$
 - [M5Stack AtomS3](https://docs.m5stack.com/en/core/AtomS3) ~15$
 - [PCB](#pcb) ~5$ + Shipping
-- Case
-- INMP441 Breakout Board (usually comes with PinSockets) ~2$
-  - 2x 1x03 PinSocket 2.54mm (J3, J4)
-- 1x  1x05 PinHeader 2.54mm (J1)
-- 1x  1x04 PinHeader 2.54mm (J2)
-- M2x??mm Screws (optional)
+- [Case](#case) ~0.5$ Filament
+- **INMP441** Breakout Board (usually comes with PinSockets) ~2$
+  - 2x PinSocket 1x03 2.54mm (J3, J4)
+- 1x PinHeader 1x05 2.54mm (J1)
+- 1x PinHeader 1x04 2.54mm (J2)
+- M2 x 5mm Screws (optional)
 
 ### Tools
 
@@ -83,9 +82,10 @@ G7 (GPIO7) | SD
 
 ### Case
 
-The case was designed in Fusion 360 and exported as [3mf files](case/3mf) and [step files](case/step). It shouldn't need any supports for 3d printing, but I recommend printing it with your high detail settings. It is rather small.
+The case was designed in Fusion 360 and exported as 3mf files and step files. It shouldn't need any supports for 3d printing, but I recommend printing it with your high detail settings. It is rather small.
 
-- [Step Files](case/)
+- [step files](case/step)
+- [3mf files](case/3mf)
 
 ## Assembly
 
@@ -103,7 +103,7 @@ Back View            |  Front View
 
 ### ESPHome
 
-[m5stack-atoms3.yaml](esphome/m5stack-atoms3.yaml)
+[code/esphome/m5stack-atoms3.yaml](code/esphome/m5stack-atoms3.yaml)
 
 This has been frankensteined together from various sources. I will try to give [credit](#credits) where [credit](#credits) is due.
 
@@ -118,8 +118,8 @@ While you here, click on **device** and change paste your media player entity id
 
 #### Sounds
 
-There are two sound files required. One for when the device is listening, this is the silent wav file, the second is for the alarm ringtone. Find some examples here: [text](esphome/media).
-The default config expects the files to be in the [/config/media](https://www.home-assistant.io/integrations/media_source/) folder. So these need to be copied there. Can be done with the vscode addon or via samba share.
+There are **two** sound files required. One for when the device is listening, this is the silent wav file, the second is for the alarm ringtone. Find some examples [code/esphome/media](code/esphome/media).
+The default config expects the files to be in the **/media** folder. (more [Home Assistant Docs](https://www.home-assistant.io/integrations/media_source/)) So these need to be copied there. Can be done with the vscode addon or via samba share.
 
 ## Try it out / Tricks
 
