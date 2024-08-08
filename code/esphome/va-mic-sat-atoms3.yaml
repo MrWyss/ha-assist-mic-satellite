@@ -10,7 +10,8 @@ substitutions:
   thinking_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/thinking_320_240.png
   replying_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/replying_320_240.png
   error_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
-  timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
+  #timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
+  timer_sound_file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/10s_silent.wav
   silence_sound_file: media-source://media_source/local/10-seconds-of-silence.mp3
   loading_illustration_background_color: "000000"
   idle_illustration_background_color: "000000"
@@ -103,7 +104,7 @@ ota:
 captive_portal:
 
 dashboard_import:
-  package_import_url: github://MrWyss/ha-assist-mic-satellite/esphome/va-mic-sat-atoms3.yaml@main                   
+  package_import_url: github://MrWyss/ha-assist-mic-satellite/code/esphome/va-mic-sat-atoms3.yaml@main                   
   import_full_config: true
 
 improv_serial:
