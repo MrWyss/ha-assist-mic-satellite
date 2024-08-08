@@ -1,7 +1,9 @@
 name: Build and Publish ESPHome firmware and website
 
-on: 
-  workflow_dispatch:
+on:
+  push:
+    branches: ['main']
+    paths: ['code/esphome/**.yaml']
 
 jobs:
   build:
