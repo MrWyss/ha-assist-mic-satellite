@@ -1,11 +1,11 @@
-name: Build and Publish Firmware
+name: Build and Publish ESPHome firmware and website
 
 on: 
   workflow_dispatch:
 
 jobs:
   build:
-    uses: MrWyss/ha-assist-mic-satellite/.github/workflows/forked_publish.yml@main
+    uses: esphome/workflows/.github/workflows/publish.yml@main
     with:
       files: code/esphome/va-mic-sat-atoms3.yaml
       name: Voice Assistant Mic Satellite
