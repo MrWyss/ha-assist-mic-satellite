@@ -142,15 +142,6 @@ button:
     on_press:
       - component.update: update_http_request
 
-  # TODO: Remove before launch, added for testing/development
-  - platform: template
-    name: Perform Update
-    entity_category: diagnostic
-    on_press:
-      - update.perform:
-          id: update_http_request
-          force_update: true
-
 #G4=IR
 #remote_transmitter:
 #  pin: GPIO4
