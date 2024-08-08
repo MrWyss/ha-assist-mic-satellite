@@ -89,16 +89,16 @@ api:
 ota:
   - platform: esphome
     id: ota_esphome
-#  - platform: http_request
-#    id: ota_http_request
-#
-#https_request:
-#
-#update:
-#  - platform: http_request
-#    name: None
-#    id: update_http_request
-#    source: https://
+  - platform: http_request
+    id: ota_http_request
+
+https_request:
+
+update:
+  - platform: http_request
+    name: None
+    id: update_http_request
+    source: https://www.ittips.ch/ha-assist-mic-satellite/manifest.json
 
 captive_portal:
 
