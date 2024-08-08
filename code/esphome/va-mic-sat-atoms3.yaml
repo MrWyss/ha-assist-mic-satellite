@@ -40,7 +40,7 @@ esphome:
     board_build.variant: m5stack-atoms3
   project: 
     name: va-mic-satellite.va-mic-satellite
-    version: "dev-2"  
+    version: "dev-2"
   on_boot:
     priority: 600
     then:
@@ -134,6 +134,22 @@ button:
     id: factory_reset_btn
     name: Factory reset
     entity_category: diagnostic
+    
+  # TODO: Remove before launch, added for testing/development
+  - platform: template
+    name: Check for update
+    entity_category: diagnostic
+    on_press:
+      - component.update: update_http_request
+
+  # TODO: Remove before launch, added for testing/development
+  - platform: template
+    name: Perform Update
+    entity_category: diagnostic
+    on_press:
+      - update.perform:
+          id: update_http_request
+          force_update: true
 
 #G4=IR
 #remote_transmitter:
