@@ -2,7 +2,6 @@
 # - Timer Page
 # - Timer Tests / Update with voice and cancle with voice
 # - silence sound file location
-# - 
 substitutions:
   loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
   idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
