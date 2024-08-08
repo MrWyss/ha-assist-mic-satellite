@@ -1,0 +1,11 @@
+name: Build and Publish Firmware
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: esphome/workflows/.github/workflows/publish.yml@main
+    with:
+      files: code/esphome/va-mic-sat-atoms3.yaml
+      name: Voice Assistant Mic Satellite
