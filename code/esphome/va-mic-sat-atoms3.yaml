@@ -3,8 +3,6 @@
 # - Timer Tests / Update with voice and cancle with voice
 # - silence sound file location
 # - 
-
-
 substitutions:
   loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
   idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
@@ -21,7 +19,6 @@ substitutions:
   replying_illustration_background_color: "FFFFFF"
   error_illustration_background_color: "000000"
   mute_on_circle_color: "F7931E"
-  #mute_off_circle_color: "41B3EF"
 
   voice_assist_idle_phase_id: "1"
   voice_assist_listening_phase_id: "2"
@@ -34,6 +31,88 @@ substitutions:
 
   allowed_characters: " !#%'()+,-./0123456789:;<>?@ABCDEFGHIJKLMNOPQRSTUVWYZ[]_abcdefghijklmnopqrstuvwxyz{|}°²³µ¿ÁÂÄÅÉÖÚßàáâãäåæçèéêëìíîðñòóôõöøùúûüýþāăąćčďĐđēėęěğĮįıļľŁłńňőřśšťũūůűųźŻżŽžơưșțΆΈΌΐΑΒΓΔΕΖΗΘΚΜΝΠΡΣΤΥΦάέήίαβγδεζηθικλμνξοπρςστυφχψωϊόύώАБВГДЕЖЗИКЛМНОПРСТУХЦЧШЪЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяёђєіїјљњћאבגדהוזחטיכלםמןנסעפץצקרשת،ءآأإئابةتجحخدذرزسشصضطظعغفقكلمنهوىيٹپچڈکگںھہیےংকচতধনফবযরলশষস়ািু্చయలిెొ్ംഅആഇഈഉഎഓകഗങചജഞടഡണതദധനപഫബഭമയരറലളവശസഹാിീുൂെേൈ്ൺൻർൽൾაბგდევზთილმნოპრსტუფქყშჩცძჭხạảấầẩậắặẹẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỳ—、一上不个中为主乾了些亮人任低佔何作供依侧係個側偵充光入全关冇冷几切到制前動區卧厅厨及口另右吊后吗启吸呀咗哪唔問啟嗎嘅嘛器圍在场執場外多大始安定客室家密寵对將小少左已帘常幫幾库度庫廊廚廳开式後恆感態成我戲戶户房所扇手打执把拔换掉控插摄整斯新明是景暗更最會有未本模機檯櫃欄次正氏水沒没洗活派温測源溫漏潮激濕灯為無煙照熱燈燥物狀玄现現瓦用發的盞目着睡私空窗立笛管節簾籬紅線红罐置聚聲脚腦腳臥色节著行衣解設調請謝警设调走路車车运連遊運過道邊部都量鎖锁門閂閉開關门闭除隱離電震霧面音頂題顏颜風风食餅餵가간감갔강개거게겨결경고공과관그금급기길깥꺼껐꼽나난내네놀누는능니다닫담대더데도동됐되된됨둡드든등디때떤뜨라래러렇렌려로료른를리림링마많명몇모무문물뭐바밝방배변보부불블빨뽑사산상색서설성세센션소쇼수스습시신실싱아안않알았애야어얼업없었에여연열옆오온완외왼요운움워원위으은을음의이인일임입있작잠장재전절정제져조족종주줄중줘지직진짐쪽차창천최추출충치침커컴켜켰쿠크키탁탄태탬터텔통트튼티파팬퍼폰표퓨플핑한함해했행혀현화활후휴힘，？"
 
+esphome:
+  name: va-mic-sat-atoms3
+  friendly_name: Voice Assistant Mic Satellite
+  name_add_mac_suffix: true
+  platformio_options:
+    board_build.flash_mode: dio
+    board_build.variant: m5stack-atoms3
+  project: 
+    name: va-mic-satellite.va-mic-satellite
+    version: "dev"  
+  on_boot:
+    priority: 600
+    then:
+      - script.execute: draw_display
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  flash_size: 8MB
+  framework:
+    type: esp-idf 
+    sdkconfig_options:
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+    #  CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+    #  CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+
+wifi:
+  ap: {}
+  on_connect:
+    - script.execute: draw_display
+    - delay: 5s  # Gives time for improv results to be transmitted
+    - ble.disable:
+  on_disconnect:
+    - script.execute: draw_display
+    - ble.enable:
+
+# Enable logging
+logger:
+  level: DEBUG
+#  logs:
+#    component: WARN
+
+# Enable Home Assistant API
+api:
+  on_client_connected: 
+    then:
+      - micro_wake_word.start
+      - delay: 10s
+      - if:
+          condition:
+            lambda: return id(init_in_progress);
+          then:
+            - lambda: id(init_in_progress) = false;
+            - script.execute: draw_display
+
+ota:
+  - platform: esphome
+    id: ota_esphome
+#  - platform: http_request
+#    id: ota_http_request
+#
+#https_request:
+#
+#update:
+#  - platform: http_request
+#    name: None
+#    id: update_http_request
+#    source: https://
+
+captive_portal:
+
+dashboard_import:
+  package_import_url: github://MrWyss/ha-assist-mic-satellite/esphome/va-mic-sat-atoms3.yaml@main                   
+  import_full_config: true
+
+improv_serial:
+
+esp32_improv:
+  authorizer: none
+
+web_server:
+
 globals:
   - id: init_in_progress
     type: bool
@@ -44,63 +123,6 @@ globals:
     type: int
     restore_value: false
     initial_value: ${voice_assist_not_ready_phase_id}
-
-
-esphome:
-  name: m5stack-atoms3
-  friendly_name: M5Stack AtomS3
-  name_add_mac_suffix: true
-  on_boot:
-    priority: 600
-    then:
-      - script.execute: draw_display
-      - micro_wake_word.start
-      - delay: 30s
-      - if:
-          condition:
-            lambda: return id(init_in_progress);
-          then:
-            - lambda: id(init_in_progress) = false;
-            - script.execute: draw_display
-
-esp32:
-  board: esp32-s3-devkitc-1
-  framework:
-    type: esp-idf #arduino
-
-# Enable logging
-logger:
-  level: DEBUG
-  logs:
-    component: ERROR
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: YOURAPIKEY
-
-ota:
-  - platform: esphome
-    password: YOUROTAPASSWORD
-
-#esp32_ble:
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "M5Stack-AtomS3 Fallback Hotspot"
-    password: YOURAPPPASSWORD
-  on_connect:
-    - script.execute: draw_display
-    #- delay: 5s  # Gives time for improv results to be transmitted
-    #- ble.disable:
-  on_disconnect:
-    - script.execute: draw_display
-    #- ble.enable:
-
-captive_portal:
 
 button:
   - platform: safe_mode
@@ -126,7 +148,8 @@ binary_sensor:
     entity_category: diagnostic
   
   - platform: gpio
-    name: Button
+    id: display_button
+    name: Display Button
     entity_category: diagnostic
     pin:
       number: GPIO41
@@ -304,17 +327,6 @@ color:
     hex: ${error_illustration_background_color}
   - id: mute_on_color
     hex: ${mute_on_circle_color}
-  #- id: mute_off_color
-  #  hex: ${mute_off_circle_color}
-
-#time:
-#  platform: homeassistant
-#  id: ha_time
-
-#i2c:
-#  - id: bus_a
-#    sda: GPIO38
-#    scl: GPIO39
 
 spi:
   clk_pin: 17
@@ -386,10 +398,6 @@ microphone:
     channel: left
     pdm: false
     bits_per_sample: 32bit
-    #on_data:
-    #  - logger.log:
-    #      format: "Received %d bytes"
-    #      args: ['x.size()']
 
 micro_wake_word:
   vad:
