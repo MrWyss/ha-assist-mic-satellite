@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: esphome/workflows/.github/workflows/publish.yml@main
+    uses: MrWyss/ha-assist-mic-satellite/.github/workflows/forked_publish.yml@main
     with:
       files: code/esphome/va-mic-sat-atoms3.yaml
       name: Voice Assistant Mic Satellite
