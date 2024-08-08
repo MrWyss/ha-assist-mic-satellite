@@ -1,5 +1,5 @@
 About
-Add some information about your project here.
+The HA Assist Mic Satellite is a compact, ESPHome-based microphone solution designed for seamless integration with Home Assistant.
 
 Installation
 You can use the button below to install the pre-built firmware directly to your device via USB from the browser.
