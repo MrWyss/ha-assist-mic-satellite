@@ -21349,6 +21349,7 @@ solid ASCII
     endloop
   endfacet
 endsolid
+
 ```
 
 ### Case preview
@@ -39359,6 +39360,7 @@ solid ASCII
     endloop
   endfacet
 endsolid
+
 ```
 
 ### Assembly
