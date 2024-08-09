@@ -21352,7 +21352,8 @@ endsolid
 ```
 
 ### Case preview
-usion 360 and exported as 3mf files and step files. [Step files](case/step) | [3mf files](case/3mf)
+
+The case was designed in Fusion 360 and exported as 3mf files and step files. [Step files](case/step) | [3mf files](case/3mf)
 It shouldn't need any supports for 3d printing, but I recommend printing it with your high detail settings. It is rather small.
 
 #### Body preview
