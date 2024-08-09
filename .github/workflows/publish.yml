@@ -11,3 +11,5 @@ jobs:
     with:
       files: code/esphome/va-mic-sat-atoms3.yaml
       name: Voice Assistant Mic Satellite
+      esphome_version: "2024.7.3"
+
