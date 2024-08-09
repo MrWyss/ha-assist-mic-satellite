@@ -1,11 +1,15 @@
 # HA Assist Mic Satellite
 
-[![Build and Publish ESPHome firmware and website](https://github.com/MrWyss/ha-assist-mic-satellite/actions/workflows/publish.yml/badge.svg)](https://github.com/MrWyss/ha-assist-mic-satellite/actions/workflows/publish.yml)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/MrWyss/ha-assist-mic-satellite/main)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/publish.yml)
+![GitHub manifest.json dynamic (branch)](https://img.shields.io/github/manifest-json/Version/mrwyss/ha-assist-mic-satellite/gh-pages?label=Version)
+![GitHub Repo stars](https://img.shields.io/github/stars/mrwyss/ha-assist-mic-satellite)
+
 <p align="center">
   <img alt="Logo" src="docs/assets/MicSatellite_Color_V3.png" width="100">
 </p>
 
-***<p style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone solution designed for seamless integration with Home Assistant. »</p>***
+***<p style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone only solution.»</p>***
 
 ## Features
 
@@ -22,6 +26,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 ### Future ideas
 
 - [x] **Ready made project** / **Made for ESPHome** if that is requested
+- [ ] option to change the wake word
 - [ ] Online OTA update for the firmware
 - [ ] Redesign Animation (for small screens)
 - [ ] 🚧 **Timers** (this is still work in progress)
@@ -66,7 +71,11 @@ It shouldn't need any supports for 3d printing, but I recommend printing it with
 
 ### Assembly
 
-Pretty straight forward. Solder the header sockets and pins to the pcb and to the INMP441. Check the direction. Put it in the case, screw it together and attach the HAT to the AtomS3.
+Pretty straight forward. Solder the header sockets and pins to the pcb and to the INMP441.
+
+>❗Check the direction of the header sockets and pins. Especially on the INMP441, the side with mic icon should face the same direction as the screen.
+
+Put it in the case, screw it together and attach the HAT to the AtomS3.
 
 ![MicHatCase v15](https://github.com/user-attachments/assets/4bc6dd32-d535-4368-bd40-c113e375623f)
 
