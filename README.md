@@ -55,7 +55,7 @@ Gather the following items: **M5Stack AtomS3**, [PCB](https://www.pcbway.com/pro
   - 2x PinSocket 1x03 2.54mm (J3, J4)
 - 1x PinHeader 1x05 2.54mm (J1)
 - 1x PinHeader 1x04 2.54mm (J2)
-- M2 x 5mm Screws (optional)
+- M2 x 5mm Screw nylon or with metal with nylon washer (optional)
 
 ### PCB
 
