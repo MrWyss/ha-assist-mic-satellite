@@ -3,6 +3,7 @@
 # - Timer Tests / Update with voice and cancle with voice
 # - silence sound file location
 substitutions:
+  version: "dev"
   loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
   idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
   listening_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/listening_320_240.png
@@ -40,7 +41,7 @@ esphome:
     board_build.variant: m5stack-atoms3
   project: 
     name: va-mic-satellite.va-mic-satellite
-    version: "dev-2"
+    version: ${version}
   on_boot:
     priority: 600
     then:
