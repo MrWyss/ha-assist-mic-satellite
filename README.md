@@ -95,7 +95,7 @@ While you here, click on **device** and change paste your media player entity id
 
 There are **two** sound files required. One for when the device is listening, this is the silent wav file, the second is for the alarm ringtone.
 
-Currently the firmware is configured to play the files directly from github, in other words it requires an internet connection. If you want to change this, adopt the device in ESPHome and change the following lines:
+Currently the firmware is configured that the media player streams the files directly from github, in other words it (media_player) requires an internet connection. If you want to change this, adopt the device in ESPHome and change the following lines:
 
 ```yaml
 substitutions:
@@ -153,6 +153,7 @@ Back View            |  Front View
 
 ## Credits
 
+- [HA Voice Kit](https://github.com/esphome/voice-kit)
 - [ESPHome Voice Assistant Github Repo](https://github.com/esphome/firmware/tree/main/voice-assistant/)
 - [SmarthomeCircle](https://smarthomecircle.com/How-I-created-my-voice-assistant-with-on-device-wake-word-using-home-assistant)
 - [Community](https://community.home-assistant.io/t/esphome-voice-assistant-speech-output-to-home-assistant-media-player/588337/18)
