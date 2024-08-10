@@ -340,19 +340,38 @@ spi:
   clk_pin: 17
   mosi_pin: 21
 
-switch:
-  - platform: gpio
+output:
+  - platform: ledc
     pin: 16
-    #name: "Backlight"
-    id: backlight
-    restore_mode: ALWAYS_ON
+    id: backlight_pwm
+    min_power: 0.28
+    max_power: 1
+    zero_means_zero: true
+
+light:
+  - platform: monochromatic
+    output: backlight_pwm
+    name: "Display Brightness"
+    icon: "mdi:brightness-6"
+    id: back_light
+    restore_mode: RESTORE_AND_ON
+    #Range  : 62 - 100
+
+
+switch:
+#  - platform: gpio
+#    pin: 16
+#    #name: "Backlight"
+#    id: backlight
+#    restore_mode: ALWAYS_ON
 
   - platform: template
     name: Display conversation
     id: display_conversation
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
-    entity_category: config
+    #entity_category: config
+
 
   - platform: template
     name: Mute
@@ -360,7 +379,7 @@ switch:
     icon: "mdi:microphone-off"
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
-    entity_category: config
+    #entity_category: config
     on_turn_off:
       - if:
           condition:
