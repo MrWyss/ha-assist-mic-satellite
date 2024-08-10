@@ -5,11 +5,14 @@
 ![GitHub manifest.json dynamic (branch)](https://img.shields.io/github/manifest-json/Version/mrwyss/ha-assist-mic-satellite/gh-pages?label=Version)
 ![GitHub Repo stars](https://img.shields.io/github/stars/mrwyss/ha-assist-mic-satellite)
 
-<p align="center">
-  <img alt="Logo" src="docs/assets/MicSatellite_Color_V3.png" width="100">
-</p>
+-----
+
+| ![Render](docs/assets/FullMic.png) | ![Render](docs/assets/HAConfig.png) |
+|------------------------------------|--------------------------------------|
 
 ***<p style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone only solution.»</p>***
+
+-----
 
 ## Features
 
@@ -20,23 +23,22 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 - Local **wake word detection** (😲 holy cow, this works fast and so well)
 - Redirect TTS to a configurable media **media player entity** e.g. SONOS, to play the response
 - HA **Assist Pipeline integration**
-- Turn **on** and **off** listening mode (**wake word detection**)
+- Toggle **mute**, toggle **conversation text** and control display **brightness**
 - **Show current state** (listening, idle, request, response) on the display. It is fairly readable, though it requires good eyesight 👀.
+- **Timers** support (plural), realistically up to 4 timers
+- Easy firmware flashing via the [web installer](https://www.ittips.ch/ha-assist-mic-satellite/)
 
-### Future ideas
+### Roadmap
 
-- [x] **Ready made project** / **Made for ESPHome** if that is requested
-- [ ] option to change the wake word
+- [ ] Option to change the wake word
 - [ ] Online OTA update for the firmware
-- [ ] Redesign Animation (for small screens)
-- [ ] 🚧 **Timers** (this is still work in progress)
-- [ ] 3D printable **case** and **mounting solution** for the AtomS3 and the microphone
-- [ ] Royalty free **sound files** the alarm
+- [ ] Redesign Animation and Text (optimizing for the small screens)
+- [ ] Better alarm **sound files**
 
 ## TL;DR
 
-Gather the following items: **M5Stack AtomS3**, [PCB](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html), header sockets and pins, and an INMP441 breakout board.
-3D print the case, solder the pbc, [flash the firmware](https://www.ittips.ch/ha-assist-mic-satellite/), configure the device in Home Assistant (**Allow the device to perform Home Assistant actions** and configure your **media_player entitiy**), and you're all set.
+Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers and pin sockets](#bom) and an [INMP441](#bom) breakout board.
+3D print the [case](#case), [assemble](#assembly) it, [flash the firmware](#esphome), [configure](#home-assistant) the device in Home Assistant.
 
 ## Try it out / Tricks
 
@@ -51,17 +53,21 @@ Gather the following items: **M5Stack AtomS3**, [PCB](https://www.pcbway.com/pro
 - [M5Stack AtomS3](https://docs.m5stack.com/en/core/AtomS3) ~15$
 - [PCB](#pcb) ~5$ + Shipping
 - [Case](#case) ~0.5$ Filament
-- **INMP441** Breakout Board (usually comes with PinSockets) ~2$
-  - 2x PinSocket 1x03 2.54mm (J3, J4)
-- 1x PinHeader 1x05 2.54mm (J1)
-- 1x PinHeader 1x04 2.54mm (J2)
-- M2 x 5mm Screw nylon or with metal with nylon washer (optional)
+- **INMP441** Breakout Board (usually comes with pin sockets) ~2$
+  - 2x Pin socket 1x03 2.54mm (J3, J4)
+- 1x Pin header 1x05 2.54mm (J1)
+- 1x Pin header 1x04 2.54mm (J2)
+- M2 x 5mm screw nylon or with metal with nylon washer (optional)
 
 ### PCB
 
 The pcb was designed in KiCAD. [KiCAD Canvas Online View](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FMrWyss%2Fha-assist-mic-satellite%2Ftree%2Fmain%2Fpcb%2FMic%2520HAT%2520for%2520M5Stack%2520Atom) | [KiCad Project](pcb/Mic%20HAT%20for%20M5Stack%20Atom) | [PCB Step File](<pcb/Mic HAT for M5Stack Atom/Mic HAT for M5Stack Atom.step>)
 
 🔜 Order from [PCBWay](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html) (affiliated link)
+
+| PCB Front | PCB Back |
+|:-------------------------:|:-------------------------:|
+|![PCB Front](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_RT.png) | ![PCB Back](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_Back_RT.png)|
 
 ### Case
 
@@ -76,7 +82,9 @@ Pretty straight forward. Solder the header sockets and pins to the pcb and to th
 
 Put it in the case, screw it together and attach the HAT to the AtomS3.
 
-![MicHatCase v15](https://github.com/user-attachments/assets/4bc6dd32-d535-4368-bd40-c113e375623f)
+<p align="center">
+  <img alt="Logo" src="https://github.com/user-attachments/assets/4bc6dd32-d535-4368-bd40-c113e375623f" width="500">
+</p>
 
 ## Software
 
@@ -137,27 +145,23 @@ sequenceDiagram
 
 <img src="docs/assets/wiring.png" alt="wiring" style="width: 500px;" />
 
-AtomS3 Pin|INMP441 Pin
-:----------:|:-----------:
-3V3| VDD
-GND | GND + L/R
-G5 (GPIO5) | WS
-G6 (GPIO6) | SCK
-G7 (GPIO7) | SD
+|AtomS3 Pin|INMP441 Pin|
+|:----------:|:-----------:|
+|3V3| VDD|
+|GND | GND + L/R|
+|G5 (GPIO5) | WS|
+|G6 (GPIO6) | SCK|
+|G7 (GPIO7) | SD|
 
 ## 🚧 Gallery Work in Progress 🚧
 
-3D Illustration            |  Config Options
-:-------------------------:|:-------------------------:
-![Render](docs/assets/case_render.png) | ![ESPhome Configurations](docs/assets/HAConfig.png)
+|Muted            |  Intent in Action|
+|:-------------------------:|:-------------------------:|
+|![Muted](docs/assets/muted_smaller.jpg) | ![Intent in Action](docs/assets/intent_video.gif)|
 
-Muted            |  Intent in Action
-:-------------------------:|:-------------------------:
-![Muted](docs/assets/muted_smaller.jpg) | ![Intent in Action](docs/assets/intent_video.gif)
-
-Back View            |  Front View
-:-------------------------:|:-------------------------:
-![alt text](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_Back_RT.png) | ![alt text](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_RT.png)
+|Back View            |  Front View|
+|:-------------------------:|:-------------------------:|
+|![alt text](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_Back_RT.png) | ![alt text](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_RT.png)|
 
 ## Credits
 
