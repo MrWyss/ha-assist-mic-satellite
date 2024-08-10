@@ -5,14 +5,11 @@
 ![GitHub manifest.json dynamic (branch)](https://img.shields.io/github/manifest-json/Version/mrwyss/ha-assist-mic-satellite/gh-pages?label=Version)
 ![GitHub Repo stars](https://img.shields.io/github/stars/mrwyss/ha-assist-mic-satellite)
 
------
+<p align="center">
+  <img alt="Title Logo" src="docs/assets/title.png" width="800">
+</p>
 
-| ![Render](docs/assets/FullMic.png) | ![Render](docs/assets/HAConfig.png) |
-|------------------------------------|--------------------------------------|
-
-***<p style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone only solution.»</p>***
-
------
+***<p align="center" style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone only solution.»</p>***
 
 ## Features
 
