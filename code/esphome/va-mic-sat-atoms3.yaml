@@ -1,7 +1,3 @@
-#TODO:
-# - Timer Page
-# - Timer Tests / Update with voice and cancle with voice
-# - silence sound file location
 substitutions:
   version: "dev"
   loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
@@ -20,6 +16,7 @@ substitutions:
   replying_illustration_background_color: "FFFFFF"
   error_illustration_background_color: "000000"
   mute_on_circle_color: "F7931E"
+  timer_font_color: "E35A10"
 
   voice_assist_idle_phase_id: "1"
   voice_assist_listening_phase_id: "2"
@@ -52,11 +49,13 @@ esp32:
   variant: esp32s3
   flash_size: 8MB
   framework:
-    type: esp-idf 
+    type: esp-idf
     sdkconfig_options:
       CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
-    #  CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
-    #  CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      #CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY: "y"
+      #CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      #CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      #CONFIG_ESP32_S3_BOX_BOARD: "y"
 
 wifi:
   ap: {}
@@ -78,8 +77,8 @@ logger:
 api:
   on_client_connected: 
     then:
-      - micro_wake_word.start
       - delay: 10s
+      - micro_wake_word.start
       - if:
           condition:
             lambda: return id(init_in_progress);
@@ -124,6 +123,11 @@ globals:
     type: int
     restore_value: false
     initial_value: ${voice_assist_not_ready_phase_id}
+ 
+  - id: timers_text
+    type: std::string
+    restore_value: false
+    initial_value: ""
 
 button:
   - platform: safe_mode
@@ -335,6 +339,8 @@ color:
     hex: ${error_illustration_background_color}
   - id: mute_on_color
     hex: ${mute_on_circle_color}
+  - id: timer_color
+    hex: ${timer_font_color}
 
 spi:
   clk_pin: 17
@@ -449,8 +455,9 @@ voice_assistant:
         condition:
           switch.is_off: mute
         then:
-          #- wait_until:
-          #    not: ble.enabled
+          - wait_until:
+              not: ble.enabled
+          - delay: 2s
           - micro_wake_word.start
           - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
         else:
@@ -526,6 +533,9 @@ voice_assistant:
       
   on_end: # An automation to perform when the voice assistant is finished all tasks.
     - logger.log: "on_end"
+    - wait_until:
+        not:
+          voice_assistant.is_running:
     - delay: 5s
     - micro_wake_word.start
     - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
@@ -570,21 +580,53 @@ voice_assistant:
 
   on_timer_started: # An automation to perform when a voice assistant timer has finished. The timer is available as timer of type
     - logger.log: "on_timer_started"
-
+    - lambda: |-
+        ESP_LOGD("main", "Timer started: ID: %s, Name: %s",timer.id.c_str(), timer.name.c_str());
+  
   on_timer_cancelled: # An automation to perform when a voice assistant timer has been cancelled. The timer is available as timer of type voice_assistant::Timer.
     - logger.log: "on_timer_cancelled"
+    - lambda: |-
+        ESP_LOGD("main", "Timer cancelled: ID: %s, Name: %s",timer.id.c_str(), timer.name.c_str());
+        id(timers_text).clear();
     - switch.turn_off: timer_ringing
     - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
     - script.execute: draw_display
 
   on_timer_updated: # An automation to perform when a voice assistant timer has been updated (paused/resumed/duration changed). The timer is available as timer of type voice_assistant::Timer.
     - logger.log: "on_timer_updated"
+    - lambda: |-
+        ESP_LOGD("main", "Timer updated: ID: %s, Name: %s",timer.id.c_str(), timer.name.c_str());
 
   on_timer_tick: # An automation to perform when the voice assistant timers tick is triggered. This is called every 1 second while there are timers on this device. The timers are available as timers which is a std::vector (array) of type voice_assistant::Timer.
-    - logger.log: "on_timer_tick"
+    #- logger.log: "on_timer_tick"
+    - lambda: |-
+        auto pad_zero = [](int num) {
+          return (num < 10 ? "0" : "") + std::to_string(num);
+        };
+        id(timers_text).clear();
+        for (const auto& timer : timers) {
+          int hours = timer.seconds_left / 3600;
+          int minutes = (timer.seconds_left % 3600) / 60;
+          int seconds = timer.seconds_left % 60;
+          std::string time_str = pad_zero(hours) + ":" +
+                                 pad_zero(minutes) + ":" +
+                                 pad_zero(seconds);
+          std::string name = timer.name.empty() ? "none" : timer.name;
+
+          id(timers_text) += name + ": " + time_str + "~";
+          ESP_LOGD("main", "Timer tick: ID: %s, Name: %s, Remaining: %s",timer.id.c_str(), timer.name.c_str(), time_str.c_str());
+        }
 
   on_timer_finished: # An automation to perform when a voice assistant timer has finished. The timer is available as timer of type voice_assistant::Timer.
     - logger.log: "on_timer_finished"
+    - text_sensor.template.publish:
+        id: text_response
+        state: !lambda |-
+          std::string timer_name = std::string(timer.name.c_str()) + " finished";
+          return timer_name;
+    - lambda: |-
+        ESP_LOGD("main", "Timer finished: Name: %s", timer.name.c_str());
+        id(timers_text).clear();     
     - script.execute: play_alarm
 
 
@@ -607,10 +649,22 @@ display:
       - id: idle_page
         lambda: |-
           it.fill(id(idle_color));
-          it.image((it.get_width() /2 ), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
           //it.image(25, 25, id(mdi_mute_off), ImageAlign::CENTER, id(mute_off_color));
           //it.filled_circle(20, 20, 2, mute_off_color);
-      
+          if (!id(timers_text).empty()) {
+            char *text = strdup(id(timers_text).c_str());
+            char *line = strtok(text, "~");
+            int y_offset = it.get_height() - 12; 
+            while (line != nullptr) {
+              it.printf(0, y_offset, id(font_response), id(timer_color), TextAlign::BASELINE_LEFT, "%s", line);
+              y_offset -= 12;  // Adjust the vertical position for each line
+              line = strtok(nullptr, "~");
+            }
+            free(text);
+            //it.printf(0, 108, id(font_response), id(timer_color), TextAlign::BASELINE_LEFT, "%s", id(timers_text).c_str());
+          }
+
       - id: listening_page
         lambda: |-
           it.fill(id(listening_color));
@@ -658,15 +712,13 @@ display:
               it.rectangle(10, 10, 108, 15, Color::BLACK);
               it.printf(15, 12, id(font_request), Color::BLACK, "%s", "No HA");
           }
+      
       - id: timer_finished_page
         lambda: |-
-          it.fill(id(error_color));
-          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
-          if (id(display_conversation).state) {
-              it.filled_rectangle(10, 10, 108, 15, Color::WHITE);
-              it.rectangle(10, 10, 108, 15, Color::BLACK);
-              it.printf(15, 12, id(font_request), Color::BLACK, "%s", "Timer is up");
-          }
+          it.fill(id(idle_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_replying), ImageAlign::CENTER);
+          it.printf(64, 5, id(font_response), id(timer_color), TextAlign::CENTER, "%s", id(text_response).state.c_str());
+
       - id: initializing_page
         lambda: |-
           it.fill(id(loading_color));
@@ -703,7 +755,6 @@ script:
       - switch.turn_off: timer_ringing
       - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
       - script.execute: draw_display
-
     
   - id: draw_display
     then:
