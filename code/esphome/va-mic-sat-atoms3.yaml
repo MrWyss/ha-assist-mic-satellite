@@ -16,7 +16,7 @@ substitutions:
   replying_illustration_background_color: "FFFFFF"
   error_illustration_background_color: "000000"
   mute_on_circle_color: "F7931E"
-  timer_font_color: "57FEFE"
+  timer_font_color: "E35A10"
 
   voice_assist_idle_phase_id: "1"
   voice_assist_listening_phase_id: "2"
@@ -286,7 +286,6 @@ font:
       weight: 300
     glyphs: ${allowed_characters}
     size: 12
-  
 
 text_sensor:
   - id: text_request
@@ -656,10 +655,10 @@ display:
           if (!id(timers_text).empty()) {
             char *text = strdup(id(timers_text).c_str());
             char *line = strtok(text, "~");
-            int y_offset = it.get_height() - 20;
+            int y_offset = it.get_height() - 12; 
             while (line != nullptr) {
               it.printf(0, y_offset, id(font_response), id(timer_color), TextAlign::BASELINE_LEFT, "%s", line);
-              y_offset -= 20;  // Adjust the vertical position for each line
+              y_offset -= 12;  // Adjust the vertical position for each line
               line = strtok(nullptr, "~");
             }
             free(text);
@@ -718,7 +717,7 @@ display:
         lambda: |-
           it.fill(id(idle_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_replying), ImageAlign::CENTER);
-          it.printf(64, 64, id(font_response), id(timer_color), TextAlign::CENTER, "%s", id(text_response).state.c_str());
+          it.printf(64, 5, id(font_response), id(timer_color), TextAlign::CENTER, "%s", id(text_response).state.c_str());
 
       - id: initializing_page
         lambda: |-
