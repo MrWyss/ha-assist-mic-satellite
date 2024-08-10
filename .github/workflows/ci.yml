@@ -2,6 +2,8 @@ name: CI
 
 on:
   pull_request:
+    paths:
+      - 'code/esphome/va-mic-sat-atoms3.yaml'
 
 jobs:
   ci:
