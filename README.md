@@ -140,6 +140,8 @@ sequenceDiagram
 
 [KiCAD Schematic](<pcb/Mic HAT for M5Stack Atom/Mic HAT for M5Stack Atom.kicad_sch>) | [KiCAD Canvas Online View](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FMrWyss%2Fha-assist-mic-satellite%2Ftree%2Fmain%2Fpcb%2FMic%2520HAT%2520for%2520M5Stack%2520Atom)
 
+All the the pcb hat does is connecting the INMP441 pins to the AtomS3 pins.
+
 <img src="docs/assets/wiring.png" alt="wiring" style="width: 500px;" />
 
 |AtomS3 Pin|INMP441 Pin|
@@ -149,6 +151,15 @@ sequenceDiagram
 |G5 (GPIO5) | WS|
 |G6 (GPIO6) | SCK|
 |G7 (GPIO7) | SD|
+
+Additionally, it exposes the the remaining pins of the AtomS3 and adds two solder bridges (JP1 and JP2). G8, G38, G39 are available to use for other purposes. So is the grove connector (G1, G2). Power (+3V3 and +5V) and ground are also available.
+
+The solder bridges are used to change the audio channel, left or right. There are two configurations:
+
+- Left channel : JP1 bridged and JP2 not connected (default)
+- Right channel : JP1 not bridged and JP2 bridged
+
+>❗To change the configuration, both solder bridges need to be modified. Connect one and disconnect the other. I would otherwise connect 3V3 to GND.
 
 ## 🚧 Gallery Work in Progress 🚧
 
