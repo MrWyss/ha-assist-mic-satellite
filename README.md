@@ -173,11 +173,11 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 ## Background
 
-I am not an electrical engineer nor a software developer. This project to me is for fun and to learn new things. Such as pbc design with KiCad, CAD, ready made ESPHome projects.
+I am not an electrical engineer nor a software developer. This project is for fun and to learn new things, such as PCB design with KiCad, CAD, and ready-made ESPHome projects.
 
 I am aware that Nabu Casa is working on a [Voice Kit](https://github.com/esphome/voice-kit); in fact, many things are directly taken from their project. I am excited to see what the final product will look like and might even buy it myself.
 
-My motivation was to have a small device that integrates with my existing sound setup (SONOS, in my case) and not to have a separate speaker.
+My motivation was to have a small device that integrates with my existing sound setup (SONOS, in my case) rather than having a separate speaker.
 
 ## License
 
