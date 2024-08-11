@@ -32,7 +32,7 @@ If anyone is interested in contributing, here are some ideas:
 - [ ] Option to change the wake word [#7](https://github.com/MrWyss/ha-assist-mic-satellite/issues/7)
 - [ ] Online OTA update for the firmware [#8](https://github.com/MrWyss/ha-assist-mic-satellite/issues/8)
 - [ ] Redesign Animation and Text (optimizing for the small screens) [#9](https://github.com/MrWyss/ha-assist-mic-satellite/issues/9)
-- [ ] Better alarm **sound files** #10
+- [ ] Better alarm **sound files** [#10](https://github.com/MrWyss/ha-assist-mic-satellite/issues/10)
 
 ## TL;DR
 
