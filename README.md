@@ -42,6 +42,7 @@ Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers an
 ## Try it out / Tricks
 
 - **Wake Word**: "Okay Nabu"
+- Create a timer, *Create a 3 minute timer for Bananas*, *Cancel Banana timer*
 - The display itself is also a button, so you can **double press to mute** the device, it stops listening for the wake word.
 - If you have Music Assistant you can change the **announcement volumes**. Goto the Music Assistant Addon -> Settings -> Players -> Your Speaker -> Configure -> Announcements configuration
 
