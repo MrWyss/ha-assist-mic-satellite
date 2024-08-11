@@ -62,10 +62,10 @@ wifi:
   on_connect:
     - script.execute: draw_display
     - delay: 5s  # Gives time for improv results to be transmitted
-    - ble.disable:
+    #- ble.disable:
   on_disconnect:
     - script.execute: draw_display
-    - ble.enable:
+    #- ble.enable:
 
 # Enable logging
 logger:
@@ -108,8 +108,9 @@ dashboard_import:
 
 improv_serial:
 
-esp32_improv:
-  authorizer: none
+# Disable in favor of memory
+#esp32_improv:
+#  authorizer: none
 
 web_server:
 
@@ -455,8 +456,8 @@ voice_assistant:
         condition:
           switch.is_off: mute
         then:
-          - wait_until:
-              not: ble.enabled
+          #- wait_until:
+          #    not: ble.enabled
           - delay: 2s
           - micro_wake_word.start
           - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
