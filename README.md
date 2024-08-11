@@ -163,11 +163,30 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 >❗To change the configuration, both solder bridges need to be modified. Connect one and disconnect the other. I would otherwise connect 3V3 to GND.
 
-## 🚧 Gallery Work in Progress 🚧
+## Picture Gallery (🚧 Work in Progress 🚧)
+
+### First prototype
 
 |Muted            |  Intent in Action|
 |:-------------------------:|:-------------------------:|
 |![Muted](docs/assets/muted_smaller.jpg) | ![Intent in Action](docs/assets/intent_video.gif)|
+
+## Background
+
+I am not an electrical engineer nor a software developer. This project to me is for fun and to learn new things. Such as pbc design with KiCad, CAD, ready made ESPHome projects.
+
+I am aware that Nabu Casa is working on a [Voice Kit](https://github.com/esphome/voice-kit); in fact, many things are directly taken from their project. I am excited to see what the final product will look like and might even buy it myself.
+
+My motivation was to have a small device that integrates with my existing sound setup (SONOS, in my case) and not to have a separate speaker.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+I wasn't sure if I should use the same license as the ESPHome project, but I think it is fine.
+
+## Contributing
+
+**Please do**, create issues, pull requests or dm me here. I am happy to help and learn from you.
 
 ## Credits
 
@@ -175,7 +194,3 @@ The solder bridges are used to change the audio channel, left or right. There ar
 - [ESPHome Voice Assistant Github Repo](https://github.com/esphome/firmware/tree/main/voice-assistant/)
 - [SmarthomeCircle](https://smarthomecircle.com/How-I-created-my-voice-assistant-with-on-device-wake-word-using-home-assistant)
 - [Community](https://community.home-assistant.io/t/esphome-voice-assistant-speech-output-to-home-assistant-media-player/588337/18)
-
-## Contributing
-
-Please do
