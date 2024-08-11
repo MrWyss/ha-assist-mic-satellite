@@ -156,10 +156,6 @@ sequenceDiagram
 |:-------------------------:|:-------------------------:|
 |![Muted](docs/assets/muted_smaller.jpg) | ![Intent in Action](docs/assets/intent_video.gif)|
 
-|Back View            |  Front View|
-|:-------------------------:|:-------------------------:|
-|![alt text](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_Back_RT.png) | ![alt text](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_RT.png)|
-
 ## Credits
 
 - [HA Voice Kit](https://github.com/esphome/voice-kit)
