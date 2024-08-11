@@ -35,7 +35,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 ## TL;DR
 
 Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers and pin sockets](#bom) and an [INMP441](#bom) breakout board.
-3D print the [case](#case), [assemble](#assembly) it, [flash the firmware](#esphome), [configure](#home-assistant) the device in Home Assistant.
+3D print the [case](#case), [assemble](#assembly) it, [flash the firmware](#firmware), [configure](#home-assistant) the device in Home Assistant.
 
 ## Try it out / Tricks
 
@@ -85,13 +85,13 @@ Put it in the case, screw it together and attach the HAT to the AtomS3.
 
 ## Software
 
-- **ESPHome / Home Assistant**
+- **Home Assistant** (ESPHome optinal, if you want to adopt the device)
 - **Music Assistant** (optional)
 - A **media player entity** (e.g. media_player.office)
 
-### ESPHome
+### Firmware
 
-Install Firmware: [Web Installer](https://www.ittips.ch/ha-assist-mic-satellite/) | [yaml](code/esphome/va-mic-sat-atoms3.yaml)
+Install Firmware: [Web Installer](https://www.ittips.ch/ha-assist-mic-satellite/) | [ESPHome yaml](code/esphome/va-mic-sat-atoms3.yaml)
 
 This has been frankensteined together from various sources. I will try to give [credit](#credits) where [credit](#credits) is due.
 
