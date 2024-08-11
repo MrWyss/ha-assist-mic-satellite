@@ -9,7 +9,7 @@
   <img alt="Title Logo" src="docs/assets/title.png" width="800">
 </p>
 
-***<p align="center" style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone only solution.»</p>***
+***<p align="center" style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
 ## Features
 
