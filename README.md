@@ -13,7 +13,7 @@
 
 ## Features
 
-*2024-08-08: This is in very early development. The firmware is working, but the documentation is still in progress. The PCB and case are still in development.*
+>📢 2024-08-11: This is in very early development, just pushed the first version of the firmware. As soon the pcb arrives, I will need to be tested.
 
 A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.html)
 
@@ -24,6 +24,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 - **Show current state** (listening, idle, request, response) on the display. It is fairly readable, though it requires good eyesight 👀.
 - **Timers** support (plural), realistically up to 4 timers
 - Easy firmware flashing via the [web installer](https://www.ittips.ch/ha-assist-mic-satellite/)
+- Managed Updates
 
 ### Roadmap
 
