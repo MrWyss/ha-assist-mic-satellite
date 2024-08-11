@@ -2,7 +2,7 @@
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/MrWyss/ha-assist-mic-satellite/main)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/publish.yml)
-![GitHub manifest.json dynamic (branch)](https://img.shields.io/github/manifest-json/Version/mrwyss/ha-assist-mic-satellite/gh-pages?label=Version)
+![GitHub manifest version (branch)](https://img.shields.io/github/manifest-json/v/mrwyss/ha-assist-mic-satellite/gh-pages?label=Firmware%20Version)
 ![GitHub Repo stars](https://img.shields.io/github/stars/mrwyss/ha-assist-mic-satellite)
 
 <p align="center">
