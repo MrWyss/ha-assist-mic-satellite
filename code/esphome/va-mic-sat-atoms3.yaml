@@ -1,23 +1,12 @@
 substitutions:
-  version: "dev"
-  loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
-  idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
-  listening_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/listening_320_240.png
-  thinking_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/thinking_320_240.png
-  replying_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/replying_320_240.png
-  error_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
+  version: "v0.0.1"
+  
+  # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
   silence_sound_file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/10s_silent.wav
+  #timer_sound_file: media-source://media_source/local/timer_finished.mp3
   #silence_sound_file: media-source://media_source/local/10-seconds-of-silence.mp3
-  loading_illustration_background_color: "000000"
-  idle_illustration_background_color: "000000"
-  listening_illustration_background_color: "FFFFFF"
-  thinking_illustration_background_color: "FFFFFF"
-  replying_illustration_background_color: "FFFFFF"
-  error_illustration_background_color: "000000"
-  mute_on_circle_color: "F7931E"
-  timer_font_color: "E35A10"
-
+  
   voice_assist_idle_phase_id: "1"
   voice_assist_listening_phase_id: "2"
   voice_assist_thinking_phase_id: "3"
@@ -61,17 +50,12 @@ wifi:
   ap: {}
   on_connect:
     - script.execute: draw_display
-    - delay: 5s  # Gives time for improv results to be transmitted
-    #- ble.disable:
   on_disconnect:
     - script.execute: draw_display
-    #- ble.enable:
 
 # Enable logging
 logger:
   level: DEBUG
-#  logs:
-#    component: WARN
 
 # Enable Home Assistant API
 api:
@@ -148,11 +132,6 @@ button:
     on_press:
       - component.update: update_http_request
 
-#G4=IR
-#remote_transmitter:
-#  pin: GPIO4
-#  carrier_duty_percent: 50%
-
 #G41=Button
 binary_sensor:
   - platform: status
@@ -193,55 +172,39 @@ binary_sensor:
         then:
           - button.press: factory_reset_btn
 
-#sensor:
-#  - platform: mpu6886
-#    address: 0x68
-#    accel_x:
-#      name: "Accel X"
-#    accel_y:
-#      name: "Accel Y"
-#    accel_z:
-#      name: "Accel z"
-#    gyro_x:
-#      name: "Gyro X"
-#    gyro_y:
-#      name: "Gyro Y"
-#    gyro_z:
-#      name: "Gyro z"
-#    temperature:
-#      name: "Temperature"
+
 image:
-  - file: ${error_illustration_file}
+  - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
     id: casita_error
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: ${idle_illustration_file}
+  - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
     id: casita_idle
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: ${listening_illustration_file}
+  - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/listening_320_240.png
     id: casita_listening
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: ${thinking_illustration_file}
+  - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/thinking_320_240.png
     id: casita_thinking
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: ${replying_illustration_file}
+  - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/replying_320_240.png
     id: casita_replying
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: ${loading_illustration_file}
+  - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
     id: casita_initializing
     resize: 128x128
     type: RGB24
@@ -251,24 +214,6 @@ image:
     id: mdi_mute_on
     resize: 30x30
     use_transparency: true
-
-  #- file: mdi:microphone
-  #  id: mdi_mute_off
-  #  resize: 30x30
-  #  use_transparency: true
-
-  #- id: error_no_wifi
-  #  file: https://github.com/esphome/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-wifi.png
-  #  resize: 128x128
-  #  type: RGB24
-  #  use_transparency: true
-  
-  #- id: error_no_ha
-  #  file: https://github.com/esphome/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-ha.png
-  #  resize: 128x128
-  #  type: RGB24
-  #  use_transparency: true
-
 
 font:
   - id: font_request
@@ -327,21 +272,21 @@ text:
 
 color:
   - id: idle_color
-    hex: ${idle_illustration_background_color}
+    hex: "000000"
   - id: listening_color
-    hex: ${listening_illustration_background_color}
+    hex: "FFFFFF"
   - id: thinking_color
-    hex: ${thinking_illustration_background_color}
+    hex: "FFFFFF"
   - id: replying_color
-    hex: ${replying_illustration_background_color}
+    hex: "FFFFFF"
   - id: loading_color
-    hex: ${loading_illustration_background_color}
+    hex: "000000"
   - id: error_color
-    hex: ${error_illustration_background_color}
+    hex: "000000"
   - id: mute_on_color
-    hex: ${mute_on_circle_color}
+    hex: "F7931E"
   - id: timer_color
-    hex: ${timer_font_color}
+    hex: "E35A10"
 
 spi:
   clk_pin: 17
@@ -362,23 +307,13 @@ light:
     icon: "mdi:brightness-6"
     id: back_light
     restore_mode: RESTORE_AND_ON
-    #Range  : 62 - 100
-
 
 switch:
-#  - platform: gpio
-#    pin: 16
-#    #name: "Backlight"
-#    id: backlight
-#    restore_mode: ALWAYS_ON
-
   - platform: template
     name: Display conversation
     id: display_conversation
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
-    #entity_category: config
-
 
   - platform: template
     name: Mute
@@ -386,7 +321,6 @@ switch:
     icon: "mdi:microphone-off"
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
-    #entity_category: config
     on_turn_off:
       - if:
           condition:
@@ -444,20 +378,16 @@ micro_wake_word:
 voice_assistant:
   id: va
   microphone: va_mic
-  #speaker: s3_speaker
   noise_suppression_level: 2
   auto_gain: 31dBFS
   volume_multiplier: 2.0
-  #vad_threshold: 3
 
   on_client_connected: # An automation to perform when Home Assistant has connected and is waiting for Voice Assistant commands.
-    - logger.log: "on_client_connected"
+    #- logger.log: "on_client_connected"
     - if:
         condition:
           switch.is_off: mute
         then:
-          #- wait_until:
-          #    not: ble.enabled
           - delay: 2s
           - micro_wake_word.start
           - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
@@ -466,15 +396,15 @@ voice_assistant:
     - lambda: id(init_in_progress) = false;
     - script.execute: draw_display
   
-  on_start: # An automation to perform when the assist pipeline is started.
-    - logger.log: "on_start"
+  #on_start: # An automation to perform when the assist pipeline is started.
+  #  - logger.log: "on_start"
 
-  # I guess not called with open wake word
-  on_wake_word_detected: # An automation to perform when the assist pipeline has detected a wake word.
-    - logger.log: "on_wake_word_detected"
+  # not called with open wake word
+  #on_wake_word_detected: # An automation to perform when the assist pipeline has detected a wake word.
+  #  - logger.log: "on_wake_word_detected"
   
   on_listening: # An automation to perform when the voice assistant microphone starts listening.
-    - logger.log: "on_listening"
+    #- logger.log: "on_listening"
     - homeassistant.service:
         service: media_player.play_media
         data:
@@ -491,28 +421,28 @@ voice_assistant:
         state: "..."
     - script.execute: draw_display
 
-  on_stt_vad_start: # An automation to perform when voice activity detection starts speech-to-text processing.
-    - logger.log: "on_stt_vad_start"
+  #on_stt_vad_start: # An automation to perform when voice activity detection starts speech-to-text processing.
+  #  - logger.log: "on_stt_vad_start"
 
-  on_stt_vad_end: # An automation to perform when voice activity detection ends speech-to-text processing.
-    - logger.log: "on_stt_vad_end"
+  #on_stt_vad_end: # An automation to perform when voice activity detection ends speech-to-text processing.
+  #  - logger.log: "on_stt_vad_end"
 
   on_stt_end: # An automation to perform when the voice assistant has finished speech-to-text. The resulting text is available to
-    - logger.log: "on_stt_end"
+    #- logger.log: "on_stt_end"
     - text_sensor.template.publish:
         id: text_request
         state: !lambda return x;
     - lambda: id(voice_assistant_phase) = ${voice_assist_thinking_phase_id};
     - script.execute: draw_display
 
-  on_intent_start: # An automation to perform when intent processing starts.
-    - logger.log: "on_intent_start"
+  #on_intent_start: # An automation to perform when intent processing starts.
+  #  - logger.log: "on_intent_start"
   
-  on_intent_end: # An automation to perform when intent processing ends.
-    - logger.log: "on_intent_end"
+  #on_intent_end: # An automation to perform when intent processing ends.
+  #  - logger.log: "on_intent_end"
   
   on_tts_start: # An automation to perform when the voice assistant has started text-to-speech. The text to be spoken is available to automations as the variable x.
-    - logger.log: "on_tts_start"
+    #- logger.log: "on_tts_start"
     - text_sensor.template.publish:
         id: text_response
         state: !lambda return x;
@@ -520,7 +450,7 @@ voice_assistant:
     - script.execute: draw_display
    
   on_tts_end: # An automation to perform when the voice assistant has finished text-to-speech. A URL containing the audio response is available to automations as the variable x.
-    - logger.log: "on_tts_end"
+    #- logger.log: "on_tts_end"
     - logger.log:
         format: "Media Player id: %s"
         args: ["id(mp_id).state.c_str()"]
@@ -533,7 +463,7 @@ voice_assistant:
           announce: "true"
       
   on_end: # An automation to perform when the voice assistant is finished all tasks.
-    - logger.log: "on_end"
+    #- logger.log: "on_end"
     - wait_until:
         not:
           voice_assistant.is_running:
@@ -542,20 +472,19 @@ voice_assistant:
     - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
     - script.execute: draw_display
   
-# Speaker Needed
-#  on_tts_stream_start: # An automation to perform when audio stream (voice response) playback starts. Requires speaker to be configured.
-#    - logger.log: "on_tts_stream_start"
+  # Speaker Needed
+  #on_tts_stream_start: # An automation to perform when audio stream (voice response) playback starts. Requires speaker to be configured.
+  #  - logger.log: "on_tts_stream_start"
+ 
+  #on_tts_stream_end: # An automation to perform when audio stream (voice response) playback ends. Requires speaker to be configured.
+  #  - logger.log: "on_tts_stream_start"
 
-#  
-#  on_tts_stream_end: # An automation to perform when audio stream (voice response) playback ends. Requires speaker to be configured.
-#    - logger.log: "on_tts_stream_start"
 
-
-  on_idle: # An automation to perform when the voice assistant is idle (no other actions/states are in progress).
-    - logger.log: "on_idle"
+  #on_idle: # An automation to perform when the voice assistant is idle (no other actions/states are in progress).
+  #  - logger.log: "on_idle"
 
   on_error: # An automation to perform when the voice assistant has encountered an error. The error code and message are available to automations as the variables code and message.
-    - logger.log: "on_error"
+    #- logger.log: "on_error"
     - if:
         condition:
           lambda: return !id(init_in_progress);
@@ -573,19 +502,19 @@ voice_assistant:
           - script.execute: draw_display
 
   on_client_disconnected : # An automation to perform when Home Assistant disconnects from the Voice Assistant.
-    - logger.log: "on_client_disconnected"
+    #- logger.log: "on_client_disconnected"
     - lambda: id(voice_assistant_phase) = ${voice_assist_not_ready_phase_id};
     - script.execute: draw_display
     - voice_assistant.stop
     - micro_wake_word.stop
 
   on_timer_started: # An automation to perform when a voice assistant timer has finished. The timer is available as timer of type
-    - logger.log: "on_timer_started"
+    #- logger.log: "on_timer_started"
     - lambda: |-
         ESP_LOGD("main", "Timer started: ID: %s, Name: %s",timer.id.c_str(), timer.name.c_str());
   
   on_timer_cancelled: # An automation to perform when a voice assistant timer has been cancelled. The timer is available as timer of type voice_assistant::Timer.
-    - logger.log: "on_timer_cancelled"
+    #- logger.log: "on_timer_cancelled"
     - lambda: |-
         ESP_LOGD("main", "Timer cancelled: ID: %s, Name: %s",timer.id.c_str(), timer.name.c_str());
         id(timers_text).clear();
@@ -594,7 +523,7 @@ voice_assistant:
     - script.execute: draw_display
 
   on_timer_updated: # An automation to perform when a voice assistant timer has been updated (paused/resumed/duration changed). The timer is available as timer of type voice_assistant::Timer.
-    - logger.log: "on_timer_updated"
+    #- logger.log: "on_timer_updated"
     - lambda: |-
         ESP_LOGD("main", "Timer updated: ID: %s, Name: %s",timer.id.c_str(), timer.name.c_str());
 
@@ -619,7 +548,7 @@ voice_assistant:
         }
 
   on_timer_finished: # An automation to perform when a voice assistant timer has finished. The timer is available as timer of type voice_assistant::Timer.
-    - logger.log: "on_timer_finished"
+    #- logger.log: "on_timer_finished"
     - text_sensor.template.publish:
         id: text_response
         state: !lambda |-
@@ -629,7 +558,6 @@ voice_assistant:
         ESP_LOGD("main", "Timer finished: Name: %s", timer.name.c_str());
         id(timers_text).clear();     
     - script.execute: play_alarm
-
 
 display:
   - platform: ili9xxx
@@ -651,8 +579,6 @@ display:
         lambda: |-
           it.fill(id(idle_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
-          //it.image(25, 25, id(mdi_mute_off), ImageAlign::CENTER, id(mute_off_color));
-          //it.filled_circle(20, 20, 2, mute_off_color);
           if (!id(timers_text).empty()) {
             char *text = strdup(id(timers_text).c_str());
             char *line = strtok(text, "~");
@@ -663,7 +589,6 @@ display:
               line = strtok(nullptr, "~");
             }
             free(text);
-            //it.printf(0, 108, id(font_response), id(timer_color), TextAlign::BASELINE_LEFT, "%s", id(timers_text).c_str());
           }
 
       - id: listening_page
@@ -729,7 +654,6 @@ display:
         lambda: |-
           it.fill(id(idle_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
-          //it.filled_circle(20, 20, 2, mute_on_color);
           it.image(25, 25, id(mdi_mute_on), ImageAlign::CENTER, id(mute_on_color));
 
 script:
@@ -738,9 +662,6 @@ script:
       - switch.turn_on: timer_ringing
       - lambda: id(voice_assistant_phase) = ${voice_assist_timer_finished_phase_id};
       - script.execute: draw_display
-      #- wait_until:
-      #      not:
-      #        microphone.is_capturing:
       - while:
           condition:
             switch.is_on: timer_ringing
