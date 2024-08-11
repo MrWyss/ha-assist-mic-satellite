@@ -27,10 +27,12 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 
 ### Roadmap
 
-- [ ] Option to change the wake word
-- [ ] Online OTA update for the firmware
-- [ ] Redesign Animation and Text (optimizing for the small screens)
-- [ ] Better alarm **sound files**
+If anyone is interested in contributing, here are some ideas:
+
+- [ ] Option to change the wake word [#7](https://github.com/MrWyss/ha-assist-mic-satellite/issues/7)
+- [ ] Online OTA update for the firmware [#8](https://github.com/MrWyss/ha-assist-mic-satellite/issues/8)
+- [ ] Redesign Animation and Text (optimizing for the small screens) [#9](https://github.com/MrWyss/ha-assist-mic-satellite/issues/9)
+- [ ] Better alarm **sound files** #10
 
 ## TL;DR
 
