@@ -125,15 +125,17 @@ To copy the sound files to for instance the home assistant, you can use the vsco
 
 ```mermaid
 sequenceDiagram
-    participant MIC Satellite
+    participant Mic Satellite
     participant Assist Pipeline
     participant media_player
-    MIC Satellite->MIC Satellite: Wake Word detection
-    MIC Satellite->>media_player: service call media_player.play_media (empty announcement)
-    MIC Satellite->MIC Satellite: Listening  
-    MIC Satellite->>Assist Pipeline: Send intent
-    Assist Pipeline->>MIC Satellite: response mp3_url
-    MIC Satellite->>media_player: service call media_player.play_media (announcement / mp3_url)
+    Mic Satellite->Mic Satellite: wake word detection
+    Mic Satellite->>media_player: trigger action media_player.play_media (announcement / silent audio)
+    media_player->media_player: lower volume
+    Mic Satellite->Mic Satellite: listening  
+    Mic Satellite->>Assist Pipeline: send intent audio
+    Assist Pipeline->>Mic Satellite: response mp3_url
+    Mic Satellite->>media_player: trigger action media_player.play_media (announcement / mp3_url)
+    media_player->media_player: play response
 ```
 
 ### Wiring / Schematics
