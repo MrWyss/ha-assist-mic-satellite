@@ -108,7 +108,7 @@ While you here, click on **device** and change paste your media player entity id
 
 There are **two** sound files required. One for when the device is listening, this is the silent wav file, the second is for the alarm ringtone.
 
-Currently the firmware is configured that the media player streams the files directly from github, in other words it (media_player) requires an internet connection. If you want to change this, adopt the device in ESPHome and change the following lines:
+Currently the firmware is configured that the media player streams the files directly from github, in other words it (media_player) requires an internet connection. If you want to change this, adopt the device in ESPHome and change the following lines to something like this:
 
 ```yaml
 substitutions:
@@ -117,7 +117,7 @@ substitutions:
   silence_sound_file: media-source://media_source/local/my-silence.mp3
 ```
 
-So these need to be copied there. Can be done with the vscode addon or via samba share. see [Home Assistant Docs](https://www.home-assistant.io/integrations/media_source/)
+To copy the sound files to for instance the home assistant, you can use the vscode addon or samba share. See more [Home Assistant Docs](https://www.home-assistant.io/integrations/media_source/)
 
 ## How it works
 
