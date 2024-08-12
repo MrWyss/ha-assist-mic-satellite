@@ -605,6 +605,10 @@
       {
         "netclass": "+3V3",
         "pattern": "+3V3"
+      },
+      {
+        "netclass": "GND",
+        "pattern": "GND"
       }
     ]
   },
