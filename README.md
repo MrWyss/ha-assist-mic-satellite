@@ -14,7 +14,9 @@
 
 ## Features
 
->📢 2024-08-11: This is in very early development, just pushed the first version of the firmware. As soon the pcb arrives, I will need to be tested.
+>📢 2024-08-12: I just came across the announcement of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
+>
+>📢 2024-08-12: PCB rev. 3 ordered 😭
 
 A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.html)
 
