@@ -1,4 +1,4 @@
-# HA Assist Mic Satellite
+# Voice Assistant Mic Satellite
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/MrWyss/ha-assist-mic-satellite/main)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/publish.yml)
@@ -10,7 +10,7 @@
   <img alt="Title Logo" src="docs/assets/title.png" width="800">
 </p>
 
-***<p align="center" style="text-align: center;">«The HA Assist Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
+***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
 ## Features
 
@@ -27,14 +27,14 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 - **Show current state** (listening, idle, request, response) on the display. It is fairly readable, though it requires good eyesight 👀.
 - **Timers** support (plural), realistically up to 4 timers
 - Easy firmware flashing via the [web installer](https://www.ittips.ch/ha-assist-mic-satellite/)
-- Managed Updates
+- Managed updates
 
 ### Roadmap
 
 If anyone is interested in contributing, here are some ideas:
 
 - [ ] Option to change the wake word [#7](https://github.com/MrWyss/ha-assist-mic-satellite/issues/7)
-- [ ] Redesign Animation and Text (optimizing for the small screens) [#9](https://github.com/MrWyss/ha-assist-mic-satellite/issues/9)
+- [ ] Redesign animation and text (optimizing for the small screens) [#9](https://github.com/MrWyss/ha-assist-mic-satellite/issues/9)
 - [ ] Better alarm **sound files** [#10](https://github.com/MrWyss/ha-assist-mic-satellite/issues/10)
 
 ## TL;DR
@@ -47,16 +47,16 @@ Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers an
 - **Wake Word**: "Okay Nabu"
 - Create a timer, *Create a 3 minute timer for Bananas*, *Cancel Banana timer*
 - The display itself is also a button, so you can **double press to mute** the device, it stops listening for the wake word.
-- If you have Music Assistant you can change the **announcement volumes**. Goto the Music Assistant Addon -> Settings -> Players -> Your Speaker -> Configure -> Announcements configuration
+- If you have [Music Assistant](https://music-assistant.io) you can change the **announcement volumes**. Goto the Music Assistant Addon -> Settings -> Players -> Your Speaker -> Configure -> Announcements configuration
 
 ## Hardware
 
 ### BOM
 
 - [M5Stack AtomS3](https://docs.m5stack.com/en/core/AtomS3) ~15$
-- [PCB](#pcb) ~5$ + Shipping
-- [Case](#case) ~0.5$ Filament
-- **INMP441** Breakout Board (usually comes with pin sockets) ~2$
+- [PCB](#pcb) ~5$ + shipping
+- [Case](#case) ~0.5$ filament
+- **INMP441** breakout board (usually comes with pin sockets) ~2$
   - 2x Pin socket 1x03 2.54mm (J3, J4)
 - 1x Pin header 1x05 2.54mm (J1)
 - 1x Pin header 1x04 2.54mm (J2)
@@ -68,7 +68,7 @@ The pcb was designed in KiCAD. [KiCAD Canvas Online View](https://kicanvas.org/?
 
 🔜 Order from [PCBWay](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html) (affiliated link)
 
-| PCB Front | PCB Back |
+| PCB front | PCB back |
 |:-------------------------:|:-------------------------:|
 |![PCB Front](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_RT.png) | ![PCB Back](docs/assets/INMP441_HAT_For_M5Stack_AtomS3_Back_RT.png)|
 
@@ -91,13 +91,13 @@ Put it in the case, screw it together and attach the HAT to the AtomS3.
 
 ## Software
 
-- **Home Assistant** (ESPHome optinal, if you want to adopt the device)
-- **Music Assistant** (optional)
+- [Home Assistant](https://www.home-assistant.io) (*ESPHome not required only if you want to adopt the device*)
+- [Music Assistant](https://music-assistant.io) (optional)
 - A **media player entity** (e.g. media_player.office)
 
 ### Firmware
 
-Install Firmware: [Web Installer](https://www.ittips.ch/ha-assist-mic-satellite/) | [ESPHome yaml](code/esphome/va-mic-sat-atoms3.yaml)
+The firmware is available here: [Web Installer](https://www.ittips.ch/ha-assist-mic-satellite/) or [ESPHome yaml](code/esphome/va-mic-sat-atoms3.yaml)
 
 This has been frankensteined together from various sources. I will try to give [credit](#credits) where [credit](#credits) is due.
 
@@ -150,9 +150,7 @@ sequenceDiagram
 
 All the the pcb hat does is connecting the INMP441 pins to the AtomS3 pins.
 
-<img src="docs/assets/wiring.png" alt="wiring" style="width: 500px;" />
-
-<details><summary>Show pin mapping table</summary>
+<details><summary>Pin mapping table</summary>
 
 |AtomS3 Pin|INMP441 Pin|
 |:----------:|:-----------:|
@@ -164,18 +162,20 @@ All the the pcb hat does is connecting the INMP441 pins to the AtomS3 pins.
 
 </details>
 
-Additionally, it exposes the the remaining pins of the AtomS3 and adds two solder bridges (JP1 and JP2). G8, G38, G39 are available to use for other purposes. So is the grove connector (G1, G2). Power (+3V3 and +5V) and ground are also available.
+<img src="docs/assets/wiring.png" alt="wiring" style="width: 500px;" />
+
+Additionally, it exposes the remaining pins of the AtomS3 and adds two solder bridges (JP1 and JP2). G8, G38, and G39 are available to use for other purposes. So is the Grove connector (G1, G2). Power (+3V3 and +5V) and ground are also available.
 
 The solder bridges are used to change the audio channel, left or right. There are two configurations:
 
-- Left channel : JP1 bridged and JP2 not connected (default)
-- Right channel : JP1 not bridged and JP2 bridged
+- Left channel: JP1 bridged and JP2 not bridged (default)
+- Right channel: JP1 not bridged and JP2 bridged
 
->❗To change the configuration, both solder bridges need to be modified. Connect one and disconnect the other. I would otherwise connect 3V3 to GND.
+>❗To change the configuration, both solder bridges need to be modified. Cut one and bridge the other. I cloud otherwise short +3V3 to GND.
 
 ## Picture Gallery
 
-<details><summary>Show Videos and Pictures</summary>
+<details><summary>Videos and Pictures</summary>
 
 ### Demo Video
 
@@ -183,7 +183,7 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 ### In the wild
 
-|Close Up | Full device with cable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|Close up | Full device with cable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |:-------------------------:|:-------------------------:|
 |![Close Up](https://github.com/user-attachments/assets/a6582e1e-ae36-4ab9-9dab-f2291d8e4a90) | ![Full device with cable](https://github.com/user-attachments/assets/94507182-9fea-4599-a826-8a55437a008d)|
 
@@ -199,22 +199,23 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 I am not an electrical engineer nor a software developer. This project is for fun and to learn new things, such as PCB design with KiCad, CAD, and ready-made ESPHome projects.
 
-I am aware that Nabu Casa is working on a [Voice Kit](https://github.com/esphome/voice-kit); in fact, many things are directly taken from their project. I am excited to see what the final product will look like and might even buy it myself.
+I am aware that Nabu Casa is working on a [Voice Kit](https://github.com/esphome/voice-kit); in fact, many things are directly taken from their project.
+I am excited to see what the final product will look like and might even buy it myself.
 
 My motivation was to have a small device that integrates with my existing sound setup (SONOS, in my case) rather than having a separate speaker.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 I wasn't sure if I should use the same license as the ESPHome project, but I think it is fine.
 
 ## Contributing
 
-**Please do**, create issues, pull requests or dm me here. I am happy to help and learn from you.
+**Please do**, create issues, pull requests, open a discussion or DM me here. I am happy to help and learn from you.
 
 ## Credits
 
 - [HA Voice Kit](https://github.com/esphome/voice-kit)
 - [ESPHome Voice Assistant Github Repo](https://github.com/esphome/firmware/tree/main/voice-assistant/)
-- [SmarthomeCircle](https://smarthomecircle.com/How-I-created-my-voice-assistant-with-on-device-wake-word-using-home-assistant)
+- [Smart Home Circle](https://smarthomecircle.com/How-I-created-my-voice-assistant-with-on-device-wake-word-using-home-assistant)
 - [Community](https://community.home-assistant.io/t/esphome-voice-assistant-speech-output-to-home-assistant-media-player/588337/18)
+- And obviously the Nabu Casa team
