@@ -152,6 +152,8 @@ All the the pcb hat does is connecting the INMP441 pins to the AtomS3 pins.
 
 <img src="docs/assets/wiring.png" alt="wiring" style="width: 500px;" />
 
+<details><summary>Show pin mapping table</summary>
+
 |AtomS3 Pin|INMP441 Pin|
 |:----------:|:-----------:|
 |3V3| VDD|
@@ -159,6 +161,8 @@ All the the pcb hat does is connecting the INMP441 pins to the AtomS3 pins.
 |G5 (GPIO5) | WS|
 |G6 (GPIO6) | SCK|
 |G7 (GPIO7) | SD|
+
+</details>
 
 Additionally, it exposes the the remaining pins of the AtomS3 and adds two solder bridges (JP1 and JP2). G8, G38, G39 are available to use for other purposes. So is the grove connector (G1, G2). Power (+3V3 and +5V) and ground are also available.
 
@@ -169,13 +173,27 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 >❗To change the configuration, both solder bridges need to be modified. Connect one and disconnect the other. I would otherwise connect 3V3 to GND.
 
-## Picture Gallery (🚧 Work in Progress 🚧)
+## Picture Gallery
+
+<details><summary>Show Videos and Pictures</summary>
+
+### Demo Video
+
+<https://github.com/user-attachments/assets/28588238-f77c-4dd4-941b-192bfecea5a3>
+
+### In the wild
+
+|Close Up | Full device with cable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+|:-------------------------:|:-------------------------:|
+|![Close Up](https://github.com/user-attachments/assets/a6582e1e-ae36-4ab9-9dab-f2291d8e4a90) | ![Full device with cable](https://github.com/user-attachments/assets/94507182-9fea-4599-a826-8a55437a008d)|
 
 ### First prototype
 
 |Muted            |  Intent in Action|
 |:-------------------------:|:-------------------------:|
 |![Muted](docs/assets/muted_smaller.jpg) | ![Intent in Action](docs/assets/intent_video.gif)|
+
+</details>
 
 ## Background
 
