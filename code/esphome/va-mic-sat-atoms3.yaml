@@ -143,35 +143,55 @@ binary_sensor:
     id: display_button
     name: Display Button
     entity_category: diagnostic
+    filters:
+      - delayed_off: 10ms
     pin:
       number: GPIO41
       inverted: true
       mode:
         input: true
         pullup: true
-    filters:
-      - delayed_off: 10ms
-    on_click:
-      min_length: 50ms
-      max_length: 350ms
-      then:
-        - logger.log: Button Clicked
-        - if:
-            condition:
-              switch.is_on: timer_ringing
-            then:
-              switch.turn_off: timer_ringing
-
-    on_double_click: 
-      then:
-        - switch.toggle: mute
-        
     on_multi_click:
-      - timing:
+      - timing: # Single Click
+          - ON for 40ms to 400ms
+          - OFF for at least 330ms
+        then:
+          - logger.log: Single Click
+          - if:
+              condition:
+                switch.is_on: timer_ringing
+              then:
+                switch.turn_off: timer_ringing
+      
+      - timing: # Double Click
+          - ON for 20ms to 400ms
+          - OFF for 20ms to 300ms
+          - ON for 20ms to 400ms
+          - OFF for at least 300ms
+        then:
+          - logger.log: Double Click
+          
+
+      - timing: # Triple Click
+          - ON for 20ms to 400ms
+          - OFF for 20ms to 300ms
+          - ON for 20ms to 400ms
+          - OFF for 20ms to 300ms
+          - ON for 20ms to 400ms
+          - OFF for at least 300ms
+        then:
+          - logger.log: Triple Click
+      
+      - timing: # Hold
+          - ON for at least 700ms
+        then:
+          - logger.log: Hold
+          - switch.toggle: mute
+      
+      - timing: # Long Hold
           - ON for at least 10s
         then:
           - button.press: factory_reset_btn
-
 
 image:
   - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
