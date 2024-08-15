@@ -1,32 +1,40 @@
 name: Build and Publish ESPHome firmware on Release
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
+  workflow_call:
     inputs: 
       summary:
         description: 'Release summary'
         required: true
-        default: 'No summary provided'
+        type: string
       version:
         description: 'Release version'
         required: true
-        default: 'test'
-  
-
-env:
-  # files to build (comma separated)
-  FILES: code/esphome/va-mic-sat-atoms3.yaml
-  
-  # Default name of the firmware to publish
-  NAME: Voice Assistant Mic Satellite
-  
-  # Whether to remove deleted files from the build
-  CLEAN_OUTPUT: true
-  
-  # Version of ESPHome to build for
-  ESPHOME_VERSION: latest
+        type: string
+      files:
+        description: Comma-separated list of files to build.
+        required: true
+        type: string
+      name:
+        description: Name of the firmware to publish.
+        required: false
+        type: string
+        default: ESPHome
+      clean:
+        description: Remove deleted files from the build
+        required: false
+        type: boolean
+        default: true
+      manifest_filename:
+        description: Filename of the manifest to write.
+        required: false
+        type: string
+        default: manifest.json
+      esphome_version:
+        description: Version of ESPHome to build for.
+        required: false
+        type: string
+        default: latest
 
 jobs:
   prepare:
@@ -34,20 +42,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       files: ${{ steps.files-array.outputs.files }}
-      release-summary: ${{ steps.set-summary.outputs.release-summary }}
-      version: ${{ steps.set-version.outputs.version}}
     steps:
-      - name: Set release summary
-        id: set-summary
-        run: echo "release-summary=${{ github.event.release.body || github.event.inputs.summary }}" >> $GITHUB_OUTPUT
-        
-      - name: Set release version
-        id: set-version
-        run: echo "version=${{ github.event.release.tag_name || github.event.inputs.version }}" >> $GITHUB_OUTPUT
-      
       - id: files-array
         run: |
-          files=$(echo "${{ env.FILES }}" | jq -Rcn 'inputs | . / ","')
+          files=$(echo "${{ inputs.files}}" | jq -Rcn 'inputs | . / ","')
           echo "files=$files" >> $GITHUB_OUTPUT
 
   build:
@@ -59,21 +57,20 @@ jobs:
         file: ${{ fromJson(needs.prepare.outputs.files) }}
     outputs:
       esphome-version: ${{ steps.esphome-build.outputs.version }}
-      version: ${{ needs.prepare.outputs.version }}
     steps:
       - uses: actions/checkout@v4.1.7
       - uses: esphome/build-action@v4.0.1
         id: esphome-build
         with:
           yaml-file: ${{ matrix.file }}
-          version: ${{ env.ESPHOME_VERSION }}
-          release-summary: ${{ needs.prepare.outputs.release-summary }}
+          version: ${{ inputs.esphome_version }}
+          release-summary: ${{ inputs.summary }}
       - run: |
           mkdir output
           mv "${{ steps.esphome-build.outputs.name }}" output/
       - uses: actions/upload-artifact@v4.3.6
         with:
-          name: ${{ env.NAME }}
+          name: ${{ inputs.name }}
           path: output
 
   publish:
@@ -85,11 +82,11 @@ jobs:
       - uses: actions/download-artifact@v4.1.8
         with:
           path: output
-          name: ${{ env.NAME }}
+          name: ${{ inputs.name}}
 
       - name: Create single manifest.json
         run: |
-          jq -s '{"name": "${{ env.NAME }}", "version": "${{ needs.build.outputs.version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
+          jq -s '{"name": "${{ inputs.name }}", "version": "${{ inputs.version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
 
       - run: cp -R static/* output
 
@@ -98,4 +95,4 @@ jobs:
         with:
           branch: gh-pages
           folder: output
-          clean: ${{ env.CLEAN_OUTPUT }}
+          clean: ${{ inputs.clean }}
