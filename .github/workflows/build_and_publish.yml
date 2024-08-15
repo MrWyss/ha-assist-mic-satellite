@@ -59,6 +59,7 @@ jobs:
         file: ${{ fromJson(needs.prepare.outputs.files) }}
     outputs:
       esphome-version: ${{ steps.esphome-build.outputs.version }}
+      version: ${{ needs.prepare.outputs.version }}
     steps:
       - uses: actions/checkout@v4.1.7
       - uses: esphome/build-action@v4.0.1
@@ -88,7 +89,7 @@ jobs:
 
       - name: Create single manifest.json
         run: |
-          jq -s '{"name": "${{ env.NAME }}", "version": "${{ needs.prepare.outputs.version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
+          jq -s '{"name": "${{ env.NAME }}", "version": "${{ needs.build.outputs.version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
 
       - run: cp -R static/* output
 
