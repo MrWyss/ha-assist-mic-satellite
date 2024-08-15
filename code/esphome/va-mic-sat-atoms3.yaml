@@ -296,7 +296,8 @@ output:
   - platform: ledc
     pin: 16
     id: backlight_pwm
-    min_power: 0.28
+    frequency: 500Hz # according to the M5 Stack documentation
+    min_power: 0.14 # tried: 0.25, 0.28, 0.2, 0.1, 0.16 -> flickering worse
     max_power: 1
     zero_means_zero: true
 
