@@ -2,7 +2,8 @@ name: Build and Publish ESPHome firmware on Release
 
 on:
   release:
-    types: [published]
+    types: [published, edited]
+  workflow_dispatch:
 
 env:
   # files to build (comma separated)
@@ -18,10 +19,10 @@ env:
   ESPHOME_VERSION: latest
 
   # Release Version 
-  VERSION: "${{ github.event.release.tag_name }}"
+  VERSION: "test"
   
   # Release Summary
-  SUMMARY: "${{ github.event.release.body }}"
+  SUMMARY: "test"
 
 
 
