@@ -1,0 +1,86 @@
+name: Build and Publish ESPHome firmware on Release
+on:
+  release:
+    types: [published, edited]
+
+env:
+  # files to build (comma separated)
+  FILES: code/esphome/va-mic-sat-atoms3.yaml
+  
+  # Default name of the firmware to publish
+  NAME: Voice Assistant Mic Satellite
+  
+  # Whether to remove deleted files from the build
+  CLEAN_OUTPUT: true
+  
+  # Version of ESPHome to build for
+  ESPHOME_VERSION: latest
+
+  # Release Version 
+  VERSION: "${{ github.event.release.tag_name }}"
+  
+  # Release Summary
+  SUMMARY: "${{ github.event.release.body }}"
+
+
+
+jobs:
+  prepare:
+    name: Pepare files for build
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ steps.files-array.outputs.files }}
+    steps:
+      - id: files-array
+        run: |
+          files=$(echo "${{ env.FILES }}" | jq -Rcn 'inputs | . / ","')
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build ESPHome binary for ${{ matrix.file }}
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        file: ${{ fromJson(needs.prepare.outputs.files) }}
+    outputs:
+      esphome-version: ${{ steps.esphome-build.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: esphome/build-action@v4.0.1
+        id: esphome-build
+        with:
+          yaml-file: ${{ matrix.file }}
+          version: ${{ env.ESPHOME_VERSION }}
+          release-summary: ${{ env.SUMMARY }}
+      - run: |
+          mkdir output
+          mv "${{ steps.esphome-build.outputs.name }}" output/
+      - uses: actions/upload-artifact@v4.3.6
+        with:
+          name: ${{ env.NAME }}
+          path: output
+
+  publish:
+    name: Publish new firmware and website to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: actions/download-artifact@v4.1.8
+        with:
+          path: output
+          name: ${{ env.NAME }}
+
+      - name: Create single manifest.json
+        run: |
+          jq -s '{"name": "${{ env.NAME }}", "version": "${{ needs.build.outputs.esphome-version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
+
+      - run: cp -R static/* output
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
+        with:
+          branch: gh-pages
+          folder: output
+          clean: ${{ env.CLEAN_OUTPUT }}
