@@ -82,7 +82,7 @@ update:
   - platform: http_request
     name: None
     id: update_http_request
-    source: https://www.ittips.ch/ha-assist-mic-satellite/manifest.json
+    source: https://raw.githubusercontent.com/MrWyss/ha-assist-mic-satellite/gh-pages/manifest.json
 
 captive_portal:
 
