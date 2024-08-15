@@ -1,10 +1,7 @@
 name: Build and Publish ESPHome firmware on Release
 on:
   release:
-    types: 
-      - published
-      - released
-      - edited
+    types: [edited]
 
 env:
   # files to build (comma separated)
