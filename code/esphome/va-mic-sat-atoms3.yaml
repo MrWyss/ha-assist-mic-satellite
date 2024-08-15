@@ -694,7 +694,7 @@ script:
                   media_content_id: ${timer_sound_file}
                   media_content_type: "music"
                   announce: "true"
-            - delay: 4s
+            - delay: 2s
       - switch.turn_off: timer_ringing
       - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
       - script.execute: draw_display
