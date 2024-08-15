@@ -1,5 +1,5 @@
 substitutions:
-  version: "v0.0.1"
+  version: "v0.0.2"
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
@@ -82,7 +82,7 @@ update:
   - platform: http_request
     name: None
     id: update_http_request
-    source: https://www.ittips.ch/ha-assist-mic-satellite/manifest.json
+    source: https://raw.githubusercontent.com/MrWyss/ha-assist-mic-satellite/gh-pages/manifest.json
 
 captive_portal:
 
@@ -143,35 +143,55 @@ binary_sensor:
     id: display_button
     name: Display Button
     entity_category: diagnostic
+    filters:
+      - delayed_off: 10ms
     pin:
       number: GPIO41
       inverted: true
       mode:
         input: true
         pullup: true
-    filters:
-      - delayed_off: 10ms
-    on_click:
-      min_length: 50ms
-      max_length: 350ms
-      then:
-        - logger.log: Button Clicked
-        - if:
-            condition:
-              switch.is_on: timer_ringing
-            then:
-              switch.turn_off: timer_ringing
-
-    on_double_click: 
-      then:
-        - switch.toggle: mute
-        
     on_multi_click:
-      - timing:
+      - timing: # Single Click
+          - ON for 40ms to 400ms
+          - OFF for at least 330ms
+        then:
+          - logger.log: Single Click
+          - if:
+              condition:
+                switch.is_on: timer_ringing
+              then:
+                switch.turn_off: timer_ringing
+      
+      - timing: # Double Click
+          - ON for 20ms to 400ms
+          - OFF for 20ms to 300ms
+          - ON for 20ms to 400ms
+          - OFF for at least 300ms
+        then:
+          - logger.log: Double Click
+          
+
+      - timing: # Triple Click
+          - ON for 20ms to 400ms
+          - OFF for 20ms to 300ms
+          - ON for 20ms to 400ms
+          - OFF for 20ms to 300ms
+          - ON for 20ms to 400ms
+          - OFF for at least 300ms
+        then:
+          - logger.log: Triple Click
+      
+      - timing: # Hold
+          - ON for at least 700ms
+        then:
+          - logger.log: Hold
+          - switch.toggle: mute
+      
+      - timing: # Long Hold
           - ON for at least 10s
         then:
           - button.press: factory_reset_btn
-
 
 image:
   - file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
@@ -296,7 +316,8 @@ output:
   - platform: ledc
     pin: 16
     id: backlight_pwm
-    min_power: 0.28
+    frequency: 500Hz # according to the M5 Stack documentation
+    min_power: 0.14 # tried: 0.25, 0.28, 0.2, 0.1, 0.16 -> flickering worse
     max_power: 1
     zero_means_zero: true
 
@@ -673,7 +694,7 @@ script:
                   media_content_id: ${timer_sound_file}
                   media_content_type: "music"
                   announce: "true"
-            - delay: 4s
+            - delay: 2s
       - switch.turn_off: timer_ringing
       - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
       - script.execute: draw_display
