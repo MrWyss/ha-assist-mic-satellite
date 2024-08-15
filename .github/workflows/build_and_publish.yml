@@ -4,6 +4,16 @@ on:
   release:
     types: [published, edited]
   workflow_dispatch:
+    inputs: 
+      summary:
+        description: 'Release summary'
+        required: true
+        default: 'No summary provided'
+      version:
+        description: 'Release version'
+        required: true
+        default: 'test'
+  
 
 env:
   # files to build (comma separated)
@@ -18,21 +28,21 @@ env:
   # Version of ESPHome to build for
   ESPHOME_VERSION: latest
 
-  # Release Version 
-  VERSION: "test"
-  
-  # Release Summary
-  SUMMARY: "test"
-
-
-
 jobs:
   prepare:
     name: Pepare files for build
     runs-on: ubuntu-latest
     outputs:
       files: ${{ steps.files-array.outputs.files }}
+      release-summary: ${{ steps.set-summary.outputs.release-summary }}
+      version: ${{ steps.set-version.outputs.version}}
     steps:
+      - name: Set release summary
+        id: set-summary
+        run: echo "::set-output name=release-summary::${{ github.event.release.body || github.event.inputs.summary }}"
+      - name: Set release version
+        id: set-version
+        run: echo "::set-output name=version::${{ github.event.release.tag_name || github.event.inputs.version }}"
       - id: files-array
         run: |
           files=$(echo "${{ env.FILES }}" | jq -Rcn 'inputs | . / ","')
@@ -54,7 +64,7 @@ jobs:
         with:
           yaml-file: ${{ matrix.file }}
           version: ${{ env.ESPHOME_VERSION }}
-          release-summary: ${{ env.SUMMARY }}
+          release-summary: ${{ needs.prepare.outputs.release-summary }}
       - run: |
           mkdir output
           mv "${{ steps.esphome-build.outputs.name }}" output/
@@ -76,7 +86,7 @@ jobs:
 
       - name: Create single manifest.json
         run: |
-          jq -s '{"name": "${{ env.NAME }}", "version": "${{ needs.build.outputs.esphome-version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
+          jq -s '{"name": "${{ env.NAME }}", "version": "${{ needs.prepare.outputs.version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
 
       - run: cp -R static/* output
 
