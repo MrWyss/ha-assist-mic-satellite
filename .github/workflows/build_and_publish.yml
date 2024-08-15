@@ -2,7 +2,7 @@ name: Build and Publish ESPHome firmware on Release
 
 on:
   release:
-    types: [published, edited]
+    types: [published]
   workflow_dispatch:
     inputs: 
       summary:
@@ -39,10 +39,12 @@ jobs:
     steps:
       - name: Set release summary
         id: set-summary
-        run: echo "::set-output name=release-summary::${{ github.event.release.body || github.event.inputs.summary }}"
+        run: echo "release-summary=${{ github.event.release.body || github.event.inputs.summary }}" >> $GITHUB_OUTPUT
+        
       - name: Set release version
         id: set-version
-        run: echo "::set-output name=version::${{ github.event.release.tag_name || github.event.inputs.version }}"
+        run: echo "version=${{ github.event.release.tag_name || github.event.inputs.version }}" >> $GITHUB_OUTPUT
+      
       - id: files-array
         run: |
           files=$(echo "${{ env.FILES }}" | jq -Rcn 'inputs | . / ","')
