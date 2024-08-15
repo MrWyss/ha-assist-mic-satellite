@@ -2,17 +2,14 @@ name: Build and publish on release
 
 on:
   release:
-    types: [published]
+    types: [published, edited]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build and publish
-        uses: ./.github/workflows/build_and_publish.yml
-        with:
-          files: code/esphome/va-mic-sat-atoms3.yaml
-          name: Voice Assistant Mic Satellite
-          esphome_version: "latest"
-          version: ${{ github.event.release.tag_name }}
-          summary: ${{ github.event.release.body }}
+    uses: ./.github/workflows/build_and_publish.yml
+    with:
+      files: code/esphome/va-mic-sat-atoms3.yaml
+      name: Voice Assistant Mic Satellite
+      esphome_version: "latest"
+      version: ${{ github.event.release.tag_name }}
+      summary: ${{ github.event.release.body }}
