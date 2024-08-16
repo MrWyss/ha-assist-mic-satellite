@@ -1,40 +1,27 @@
 name: Build and Publish ESPHome firmware on Release
 
 on:
-  workflow_call:
-    inputs: 
-      summary:
-        description: 'Release summary'
-        required: true
-        type: string
+  release:
+    types: [published, edited]
+
+  workflow_dispatch:
+    inputs:
       version:
         description: 'Release version'
         required: true
         type: string
-      files:
-        description: Comma-separated list of files to build.
+      summary:
+        description: 'Release summary'
         required: true
         type: string
-      name:
-        description: Name of the firmware to publish.
-        required: false
-        type: string
-        default: ESPHome
-      clean:
-        description: Remove deleted files from the build
-        required: false
-        type: boolean
-        default: true
-      manifest_filename:
-        description: Filename of the manifest to write.
-        required: false
-        type: string
-        default: manifest.json
-      esphome_version:
-        description: Version of ESPHome to build for.
-        required: false
-        type: string
-        default: latest
+
+env:
+  VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
+  SUMMARY: ${{ github.event.inputs.summary || github.event.release.body }}
+  FILES: "code/esphome/va-mic-sat-atoms3.yaml"
+  NAME: Voice Assistant Mic Satellite
+  ESPHOME_VERSION: "latest"
+  CLEAN: true
 
 jobs:
   prepare:
@@ -45,7 +32,7 @@ jobs:
     steps:
       - id: files-array
         run: |
-          files=$(echo "${{ inputs.files}}" | jq -Rcn 'inputs | . / ","')
+          files=$(echo "${{ env.FILES}}" | jq -Rcn 'inputs | . / ","')
           echo "files=$files" >> $GITHUB_OUTPUT
 
   build:
@@ -63,14 +50,14 @@ jobs:
         id: esphome-build
         with:
           yaml-file: ${{ matrix.file }}
-          version: ${{ inputs.esphome_version }}
-          release-summary: ${{ inputs.summary }}
+          version: ${{ env.ESPHOME_VERSION }}
+          release-summary: ${{ env.SUMMARY }}
       - run: |
           mkdir output
           mv "${{ steps.esphome-build.outputs.name }}" output/
       - uses: actions/upload-artifact@v4.3.6
         with:
-          name: ${{ inputs.name }}
+          name: ${{ env.NAME }}
           path: output
 
   publish:
@@ -82,11 +69,11 @@ jobs:
       - uses: actions/download-artifact@v4.1.8
         with:
           path: output
-          name: ${{ inputs.name}}
+          name: ${{ env.NAME}}
 
       - name: Create single manifest.json
         run: |
-          jq -s '{"name": "${{ inputs.name }}", "version": "${{ inputs.version }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
+          jq -s '{"name": "${{ env.NAME }}", "version": "${{ env.VERSION }}", "home_assistant_domain": "esphome", "new_install_skip_erase": false, "builds":.}' output/*/manifest.json > output/manifest.json 
 
       - run: cp -R static/* output
 
@@ -95,4 +82,4 @@ jobs:
         with:
           branch: gh-pages
           folder: output
-          clean: ${{ inputs.clean }}
+          clean: ${{ env.CLEAN }}
