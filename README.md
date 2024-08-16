@@ -1,7 +1,7 @@
 # Voice Assistant Mic Satellite
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/MrWyss/ha-assist-mic-satellite/main)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/publish.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/build_and_publish.yml)
 ![GitHub manifest version (branch)](https://img.shields.io/github/manifest-json/v/mrwyss/ha-assist-mic-satellite/gh-pages?label=Firmware%20Version)
 ![GitHub Release Date](https://img.shields.io/github/release-date/mrwyss/ha-assist-mic-satellite)
 ![GitHub Repo stars](https://img.shields.io/github/stars/mrwyss/ha-assist-mic-satellite)
