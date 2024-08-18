@@ -193,43 +193,43 @@ binary_sensor:
           - button.press: factory_reset_btn
 
 image:
-  - file: code/esphome/media/animation/micsatellite_error.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_error.png
     id: micsatellite_error
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: code/esphome/media/animation/micsatellite_idle.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_idle.png
     id: micsatellite_idle
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: code/esphome/media/animation/micsatellite_idle_mute.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_idle_mute.png
     id: micsatellite_idle_mute
     resize: 128x128
     type: RGB24
     use_transparency: true
 
-  - file: code/esphome/media/animation/micsatellite_listening.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_listening.png
     id: micsatellite_listening
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: code/esphome/media/animation/micsatellite_thinking.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_thinking.png
     id: micsatellite_thinking
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: code/esphome/media/animation/micsatellite_replying.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_replying.png
     id: micsatellite_replying
     resize: 128x128
     type: RGB24
     use_transparency: true
   
-  - file: code/esphome/media/animation/micsatellite_init.png
+  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_init.png
     id: micsatellite_init
     resize: 128x128
     type: RGB24
