@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.0.0"
+  version: "v1.0.2"
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
@@ -81,7 +81,7 @@ update:
   - platform: http_request
     name: None
     id: update_http_request
-    source: https://raw.githubusercontent.com/MrWyss/ha-assist-mic-satellite/gh-pages/manifest.json
+    source: https://mrwyss.github.io/ha-assist-mic-satellite/firmware/manifest.json
 
 captive_portal:
 
