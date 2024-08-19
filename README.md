@@ -14,9 +14,10 @@
 
 ## Features
 
->📢 2024-08-12: I just came across the [announcement](https://www.youtube.com/watch?v=Vp5q4RIwCX4) of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
+>📢 2024-08-19: PCB rev. 3 has arrived and tested successfully. 🥳. I am also about to release firmware v1.0.0 as first release.
 >
->📢 2024-08-12: PCB rev. 3 ordered 😭
+>📢 2024-08-12: I just came across the [announcement](https://www.youtube.com/watch?v=Vp5q4RIwCX4) of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
+
 
 A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.html)
 
@@ -177,11 +178,16 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 <details><summary>Videos and Pictures</summary>
 
-### Demo Video
+### Demo Video v1.0.0
 
-<https://github.com/user-attachments/assets/28588238-f77c-4dd4-941b-192bfecea5a3>
+https://github.com/user-attachments/assets/9a9f7f58-b787-4129-acef-4c1b4aa1fa7d
+
 
 ### In the wild
+
+#### v1.0.0
+
+![Micstand](https://github.com/user-attachments/assets/4f64973a-3b5e-48f7-8a99-ee2706effb0c)
 
 |Close up | Full device with cable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |:-------------------------:|:-------------------------:|
