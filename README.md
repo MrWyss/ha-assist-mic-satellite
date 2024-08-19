@@ -1,8 +1,8 @@
 # Voice Assistant Mic Satellite
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/MrWyss/ha-assist-mic-satellite/main)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/build_and_publish.yml)
-![GitHub manifest version (branch)](https://img.shields.io/github/manifest-json/v/mrwyss/ha-assist-mic-satellite/gh-pages?label=Firmware%20Version)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mrwyss/ha-assist-mic-satellite/publish.yml)
+![GitHub Release](https://img.shields.io/github/v/release/mrwyss/ha-assist-mic-satellite?display_name=release&label=Latest%20Release)
 ![GitHub Release Date](https://img.shields.io/github/release-date/mrwyss/ha-assist-mic-satellite)
 ![GitHub Repo stars](https://img.shields.io/github/stars/mrwyss/ha-assist-mic-satellite)
 
@@ -14,7 +14,7 @@
 
 ## Features
 
->📢 2024-08-19: PCB rev. 3 has arrived and tested successfully. 🥳. I am also about to release firmware v1.0.0 as first release.
+>📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  PCB rev. 3 has arrived and tested successfully. 🥳.
 >
 >📢 2024-08-12: I just came across the [announcement](https://www.youtube.com/watch?v=Vp5q4RIwCX4) of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
 
