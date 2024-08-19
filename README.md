@@ -14,7 +14,7 @@
 
 ## Features
 
->📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  PCB rev. 3 has arrived and tested successfully. 🥳.
+>📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  [PCB rev. 3](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/15#discussion-7049397) has arrived and tested successfully. 🥳. See the new firmware [in action](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387199) on a Mic Stand 😆.
 >
 >📢 2024-08-12: I just came across the [announcement](https://www.youtube.com/watch?v=Vp5q4RIwCX4) of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
 
