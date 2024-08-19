@@ -27,7 +27,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 - Toggle **mute**, toggle **conversation text** and control display **brightness**
 - **Show current state** (listening, idle, request, response) on the display. It is fairly readable, though it requires good eyesight 👀.
 - **Timers** support (plural), realistically up to 4 timers
-- Easy firmware flashing via the [web installer](https://www.ittips.ch/ha-assist-mic-satellite/)
+- Easy firmware flashing via the [web installer](https://mrwyss.github.io/ha-assist-mic-satellite/)
 - Managed updates
 
 ### Roadmap
@@ -98,7 +98,7 @@ Put it in the case, screw it together and attach the HAT to the AtomS3.
 
 ### Firmware
 
-The firmware is available here: [Web Installer](https://www.ittips.ch/ha-assist-mic-satellite/) or [ESPHome yaml](code/esphome/va-mic-sat-atoms3.yaml)
+The firmware is available here: [Web Installer](https://mrwyss.github.io/ha-assist-mic-satellite/) or [ESPHome yaml](code/esphome/va-mic-sat-atoms3.yaml)
 
 This has been frankensteined together from various sources. I will try to give [credit](#credits) where [credit](#credits) is due.
 
