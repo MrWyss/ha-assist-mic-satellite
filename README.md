@@ -20,7 +20,7 @@
 
 A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.html)
 
-- Local **wake word detection** (😲 holy cow, this works fast and so well)
+- Local / On Device **wake word detection** (😲 holy cow, this works fast and so well)
 - Redirect TTS to a configurable media **media player entity** e.g. SONOS, to play the response
 - HA **Assist Pipeline integration**
 - Toggle **mute**, toggle **conversation text** and control display **brightness**
@@ -189,18 +189,17 @@ The solder bridges are used to change the audio channel, left or right. There ar
 
 https://github.com/user-attachments/assets/9a9f7f58-b787-4129-acef-4c1b4aa1fa7d
 
-
-### In the wild
-
-#### v1.0.0
+### Demo Pictures v1.0.0
 
 ![Micstand](https://github.com/user-attachments/assets/4f64973a-3b5e-48f7-8a99-ee2706effb0c)
+
+### Close Ups
 
 |Close up | Full device with cable&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
 |:-------------------------:|:-------------------------:|
 |![Close Up](https://github.com/user-attachments/assets/a6582e1e-ae36-4ab9-9dab-f2291d8e4a90) | ![Full device with cable](https://github.com/user-attachments/assets/94507182-9fea-4599-a826-8a55437a008d)|
 
-### First prototype
+### Archive
 
 |Muted            |  Intent in Action|
 |:-------------------------:|:-------------------------:|
