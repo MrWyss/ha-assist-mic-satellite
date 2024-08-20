@@ -12,12 +12,11 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
-## Features
-
 >📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  [PCB rev. 3](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/15#discussion-7049397) has arrived and tested successfully. 🥳. See the new firmware [in action](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387199) on a Mic Stand 😆.
 >
 >📢 2024-08-12: I just came across the [announcement](https://www.youtube.com/watch?v=Vp5q4RIwCX4) of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
 
+## Features
 
 A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.html)
 
@@ -45,8 +44,8 @@ Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers an
 ## Try it out / Tricks
 
 - **Wake Word**: "Okay Nabu"
-- Create a timer, *Create a 3 minute timer for Bananas*, *Cancel Banana timer*
-- The display itself is also a button, so you can **long press (~800ms) to mute** the device, it stops listening for the wake word.
+- Create a timer, *Create a 3 minute timer for Bananas*, *Cancel Bananas timer*
+- The display itself is also a button, so you can **long press (~800ms) to mute** the device, it stops listening for the wake word. Holding for ~10s factory resets the device.
 - If you have [Music Assistant](https://music-assistant.io) you can change the **announcement volumes**. Goto the Music Assistant Addon -> Settings -> Players -> Your Speaker -> Configure -> Announcements configuration
 
 ## Hardware
@@ -66,7 +65,7 @@ Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers an
 
 The pcb was designed in KiCAD. [KiCAD Canvas Online View](https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FMrWyss%2Fha-assist-mic-satellite%2Ftree%2Fmain%2Fpcb%2FMic%2520HAT%2520for%2520M5Stack%2520Atom) | [KiCad Project](pcb/Mic%20HAT%20for%20M5Stack%20Atom) | [PCB Step File](<pcb/Mic HAT for M5Stack Atom/Mic HAT for M5Stack Atom.step>)
 
-🔜 Order from [PCBWay](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html) (affiliated link)
+Order from [PCBWay Project Link](https://www.pcbway.com/project/shareproject/HA_Assist_Mic_Satellite_f5cc4682.html) (🛒 affiliated link)
 
 | PCB front | PCB back |
 |:-------------------------:|:-------------------------:|
