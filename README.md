@@ -12,7 +12,7 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
->📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  [PCB rev. 3](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/15#discussion-7049397) has arrived and tested successfully. 🥳. See the new firmware [in action](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387199) on a Mic Stand 😆.
+>📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  [PCB rev. 3](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/15#discussion-7049397) has arrived and tested successfully. 🥳. See the new firmware [in action](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387199) on a [mic stand](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387101) 😆.
 >
 >📢 2024-08-12: I just came across the [announcement](https://www.youtube.com/watch?v=Vp5q4RIwCX4) of **Satellite1** by [Future Proof Homes](https://futureproofhomes.net). It’s an amazing initiative! 😎 My project is entirely different and not comparable to theirs. The similar name is just a coincidence. Definitely check them out!
 
@@ -73,8 +73,17 @@ Order from [PCBWay Project Link](https://www.pcbway.com/project/shareproject/HA_
 
 ### Case
 
+#### Hat
+
 The case was designed in Fusion 360 and exported as 3mf files and step files. [Step files](case/step) | [3mf files](case/3mf)
 It shouldn't need any supports for 3d printing, but I recommend printing it with your high detail settings. It is rather small.
+
+- [Hat case body](case/3mf/MicHatCaseBody.3mf)
+- [Hat case top](case/3mf/MicHatCaseTop.3mf)
+
+#### Optional (boom, wind screen, stand)
+
+[Boom for Grove connector](case/3mf/MicHatHolderGrove.3mf), the boom was designed for the Grove connector, as it is more centered. I sacrificed a sleeved USB cable and attached a Grove connector to it. It's supposed to be a press fit. [Mic wind screen](case/3mf/MicHatCaseWindShield.3mf), this is purely cosmetic and serves no functional purpose. [Mic stand](case/3mf/MicStandMicAll.3mf), to assemble the mic stand, you need 8mm (~1 meter / hollow) aluminum rods.
 
 ### Assembly
 
