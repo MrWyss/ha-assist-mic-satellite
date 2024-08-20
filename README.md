@@ -83,7 +83,7 @@ It shouldn't need any supports for 3d printing, but I recommend printing it with
 
 #### Optional (boom, wind screen, stand)
 
-[Boom for Grove connector](case/3mf/MicHatHolderGrove.3mf), the boom was designed for the Grove connector, as it is more centered. I sacrificed a sleeved USB cable and attached a Grove connector to it. It's supposed to be a press fit. [Mic wind screen](case/3mf/MicHatCaseWindShield.3mf), this is purely cosmetic and serves no functional purpose. [Mic stand](case/3mf/MicStandMicAll.3mf), to assemble the mic stand, you need 8mm (~1 meter / hollow) aluminum rods.
+[Boom for Grove connector](case/3mf/MicHatHolderGrove.3mf), the boom was designed for the Grove connector, as it is more centered. I sacrificed a sleeved USB cable and attached a Grove connector to it. It's supposed to be a press fit. [Mic wind screen](case/3mf/MicHatCaseWindShield.3mf), this is purely cosmetic and serves no functional purpose. [Mic stand](case/3mf/MicStandMicAll.3mf), to assemble the mic stand, you need a 8mm (~1 meter / hollow) aluminum rod. Cut into approximately three 10cm pieces and two 25cm pieces.
 
 ### Assembly
 
