@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.0.2"
+  version: "v0.0.0"
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
@@ -15,9 +15,10 @@ substitutions:
   voice_assist_error_phase_id: "11"
   voice_assist_timer_finished_phase_id: "13"
   voice_assist_easteregg_phase_id: "42"
+  voice_assist_status_phase_id: "99"
 
   allowed_characters: " !#%'()+,-./0123456789:;<>?@ABCDEFGHIJKLMNOPQRSTUVWYZ[]_abcdefghijklmnopqrstuvwxyz{|}°²³µ¿ÁÂÄÅÉÖÚßàáâãäåæçèéêëìíîðñòóôõöøùúûüýþāăąćčďĐđēėęěğĮįıļľŁłńňőřśšťũūůűųźŻżŽžơưșțΆΈΌΐΑΒΓΔΕΖΗΘΚΜΝΠΡΣΤΥΦάέήίαβγδεζηθικλμνξοπρςστυφχψωϊόύώАБВГДЕЖЗИКЛМНОПРСТУХЦЧШЪЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяёђєіїјљњћאבגדהוזחטיכלםמןנסעפץצקרשת،ءآأإئابةتجحخدذرزسشصضطظعغفقكلمنهوىيٹپچڈکگںھہیےংকচতধনফবযরলশষস়ািু্చయలిెొ్ംഅആഇഈഉഎഓകഗങചജഞടഡണതദധനപഫബഭമയരറലളവശസഹാിീുൂെേൈ്ൺൻർൽൾაბგდევზთილმნოპრსტუფქყშჩცძჭხạảấầẩậắặẹẽếềểệỉịọỏốồổỗộớờởợụủứừửữựỳ—、一上不个中为主乾了些亮人任低佔何作供依侧係個側偵充光入全关冇冷几切到制前動區卧厅厨及口另右吊后吗启吸呀咗哪唔問啟嗎嘅嘛器圍在场執場外多大始安定客室家密寵对將小少左已帘常幫幾库度庫廊廚廳开式後恆感態成我戲戶户房所扇手打执把拔换掉控插摄整斯新明是景暗更最會有未本模機檯櫃欄次正氏水沒没洗活派温測源溫漏潮激濕灯為無煙照熱燈燥物狀玄现現瓦用發的盞目着睡私空窗立笛管節簾籬紅線红罐置聚聲脚腦腳臥色节著行衣解設調請謝警设调走路車车运連遊運過道邊部都量鎖锁門閂閉開關门闭除隱離電震霧面音頂題顏颜風风食餅餵가간감갔강개거게겨결경고공과관그금급기길깥꺼껐꼽나난내네놀누는능니다닫담대더데도동됐되된됨둡드든등디때떤뜨라래러렇렌려로료른를리림링마많명몇모무문물뭐바밝방배변보부불블빨뽑사산상색서설성세센션소쇼수스습시신실싱아안않알았애야어얼업없었에여연열옆오온완외왼요운움워원위으은을음의이인일임입있작잠장재전절정제져조족종주줄중줘지직진짐쪽차창천최추출충치침커컴켜켰쿠크키탁탄태탬터텔통트튼티파팬퍼폰표퓨플핑한함해했행혀현화활후휴힘，？"
-
+  
 esphome:
   name: va-mic-sat-atoms3
   friendly_name: Voice Assistant Mic Satellite
@@ -170,7 +171,16 @@ binary_sensor:
           - OFF for at least 300ms
         then:
           - logger.log: Double Click
-          
+          - lambda: |-
+              id(voice_assistant_phase) = ${voice_assist_status_phase_id};
+          - repeat:
+              count: 80
+              then:
+                - script.execute: draw_display
+                - delay: 100ms  # Adjust the delay as needed
+          - lambda: |-
+              id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
+          - script.execute: draw_display
 
       - timing: # Triple Click
           - ON for 20ms to 400ms
@@ -246,7 +256,6 @@ image:
     type: RGB24
     use_transparency: true
   
-
   - file: https://raw.githubusercontent.com/MrWyss/ha-assist-mic-satellite/main/code/esphome/media/animation/MicSatellite.png
     id: micsatellite_small
     resize: 48x48
@@ -271,6 +280,14 @@ font:
     glyphs: ${allowed_characters}
     size: 12
 
+  - id: font_status
+    file:
+      type: gfonts
+      family: Roboto+Mono
+      weight: 340
+    glyphs: ${allowed_characters}
+    size: 11
+
 text_sensor:
   - id: text_request
     platform: template
@@ -291,6 +308,27 @@ text_sensor:
           std::string truncated = esphome::str_truncate(name.c_str(),31);
           id(text_response).state = (truncated+"...").c_str();
         }
+
+  - id: project_version
+    platform: template
+    update_interval: 1h
+    lambda: |-
+      return {"${version}"};
+
+  - platform: wifi_info
+    ip_address:
+      id: ip_address
+    ssid:
+      id: wifi_ssid
+    mac_address:
+      id: wifi_mac_address
+
+debug: 
+
+sensor: 
+  - platform: debug
+    free:
+      id: startup_memory_free
 
 text:      
   - platform: template
@@ -321,6 +359,8 @@ color:
     hex: "FB3B02"
   - id: init_color
     hex: "E35A10"
+  - id: status_color
+    hex: "FFB000"
   
 spi:
   clk_pin: 17
@@ -671,7 +711,27 @@ display:
           it.fill(id(bg_black_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(micsatellite_init), ImageAlign::CENTER);
           it.printf(128, 128, id(font_response), id(init_color), TextAlign::BOTTOM_RIGHT, "%s", "Init... Check HA");
+      - id: status_page
+        lambda: |-
+          // Display the project version
+          it.printf(64, 5, id(font_status), id(status_color), TextAlign::CENTER, "Version:%s", id(project_version).state.c_str());
 
+          // Display the IP address below the version
+          it.printf(64, 25, id(font_status), id(status_color), TextAlign::CENTER, "IP:%s", id(ip_address).state.c_str());
+
+          // Display the MAC address below the IP address
+          it.printf(64, 45, id(font_status), id(status_color), TextAlign::CENTER, "MAC:");
+          it.printf(64, 65, id(font_status), id(status_color), TextAlign::CENTER, "%s", id(wifi_mac_address).state.c_str());
+
+          // Display the free memory below the MAC address  
+          // Retrieve the memory value in bytes
+          float memory_free_bytes = id(startup_memory_free).state;
+          
+          // Convert to kilobytes and round to the nearest integer
+          int memory_free_kb = static_cast<int>((memory_free_bytes / 1024.0) + 0.5);
+          
+          // Update the printf call to display the rounded kilobytes value
+          it.printf(64, 85, id(font_status), id(status_color), TextAlign::CENTER, "Free Mem:%d KB", memory_free_kb);
       - id: easteregg_page
         lambda: |-
           static int center_x = it.get_width() / 2;
@@ -679,7 +739,8 @@ display:
           static int x = center_x;
           static int y = center_y;
           static int step = 0;
-      
+
+
           // Seed the random number generator
           srand((unsigned) time(0));
       
@@ -713,7 +774,7 @@ display:
             x = center_x;
             y = center_y;
             step = 0;
-          }
+          } 
 
 script:
   - id: play_alarm
@@ -780,7 +841,11 @@ script:
                                case ${voice_assist_easteregg_phase_id}:
                                 id(s3_lcd).show_page(easteregg_page);
                                 id(s3_lcd).update();
-                                break;                               
+                                break;
+                               case ${voice_assist_status_phase_id}:
+                                id(s3_lcd).show_page(status_page);
+                                id(s3_lcd).update();
+                                break;                                    
                               default:
                                 id(s3_lcd).show_page(idle_page);
                                 id(s3_lcd).update();
