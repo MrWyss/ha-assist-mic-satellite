@@ -121,15 +121,20 @@ globals:
     restore_value: false
     initial_value: '12'
 
-  - id: line_length
+  - id: max_line_length
     type: int
     restore_value: false
     initial_value: '20'
   
-  - id: line_count
+  - id: max_line_count
     type: int
     restore_value: false
     initial_value: '4'
+
+  - id: display_duration
+    type: int
+    restore_value: false
+    initial_value: '8000'
 
 button:
   - platform: safe_mode
@@ -278,9 +283,9 @@ text_sensor:
     platform: template
     on_value:
       lambda: |-
-        if(id(text_request).state.length()>32) {
+        if(id(text_request).state.length()>255) {
           std::string name = id(text_request).state.c_str();
-          std::string truncated = esphome::str_truncate(name.c_str(),31);
+          std::string truncated = esphome::str_truncate(name.c_str(),252);
           id(text_request).state = (truncated+"...").c_str();
         }
 
@@ -288,9 +293,9 @@ text_sensor:
     platform: template
     on_value:
       lambda: |-
-        if(id(text_response).state.length()>32) {
+        if(id(text_response).state.length()>255) {
           std::string name = id(text_response).state.c_str();
-          std::string truncated = esphome::str_truncate(name.c_str(),31);
+          std::string truncated = esphome::str_truncate(name.c_str(),252);
           id(text_response).state = (truncated+"...").c_str();
         }
 
@@ -503,7 +508,7 @@ voice_assistant:
     - wait_until:
         not:
           voice_assistant.is_running:
-    - delay: 5s
+    - delay: !lambda 'return id(display_duration);'
     - micro_wake_word.start
     - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
     - script.execute: draw_display
@@ -637,7 +642,7 @@ display:
 
           if (id(display_conversation).state) {
             //std::string text = id(text_request).state.c_str();
-            id(convertto_multiline)->execute(id(text_request).state.c_str(), id(line_length), id(line_count));
+            id(convertto_multiline)->execute(id(text_request).state.c_str());
       
             int y = 0;
             for (const auto& line : id(lines_array)) {
@@ -652,7 +657,7 @@ display:
           it.image((it.get_width() / 2), (it.get_height() / 2), id(micsatellite_replying), ImageAlign::CENTER);
           if (id(display_conversation).state) {
             // Multi-line request
-            id(convertto_multiline)->execute(id(text_request).state.c_str(), id(line_length), id(line_count));
+            id(convertto_multiline)->execute(id(text_request).state.c_str());
       
             int y = 0;
             int request_lines_count = 0;
@@ -666,7 +671,7 @@ display:
             int response_offset = request_lines_count * id(line_spacing);
       
             // Multi-line response
-            id(convertto_multiline)->execute(id(text_response).state.c_str(), id(line_length), id(line_count));
+            id(convertto_multiline)->execute(id(text_response).state.c_str());
       
             y = response_offset;
             for (const auto& line : id(lines_array)) {
@@ -705,8 +710,6 @@ script:
   - id: convertto_multiline
     parameters:
       text: string
-      max_line_length: int
-      max_lines: int
     then:
       - lambda: |
             std::string val = text;
@@ -716,9 +719,9 @@ script:
             std::string current_line;
             std::vector<std::string> lines;
             
-            while (pch != NULL && line_count < max_lines) {
+            while (pch != NULL) {
                 int word_length = strlen(pch);
-                if (current_line_length + word_length + 1 <= max_line_length) {
+                if (current_line_length + word_length + 1 <= id(max_line_length)) {
                     if (!current_line.empty()) {
                         current_line += " ";
                         current_line_length++;
@@ -730,13 +733,15 @@ script:
                     current_line = pch;
                     current_line_length = word_length;
                     line_count++;
+                    if (line_count >= id(max_line_count)) {
+                        break;
+                    }
                 }
                 pch = strtok(NULL, " ");
             }
             
-            if (!current_line.empty() && line_count < max_lines) {
+            if (!current_line.empty() && line_count < id(max_line_count)) {
                 lines.push_back(current_line);
-                line_count++;
             }
 
             // Set the lines to the global variable
