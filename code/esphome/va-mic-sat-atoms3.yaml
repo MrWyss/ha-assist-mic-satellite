@@ -719,7 +719,7 @@ display:
       - id: status_page
         lambda: |-
           int spacing = 20;  // Define the spacing between lines
-          int base_y = 15;    // Base y-coordinate
+          int base_y = 25;    // Base y-coordinate
           auto font = id(font_status);
           auto color = id(status_color);
           int center_x = it.get_width() / 2;
