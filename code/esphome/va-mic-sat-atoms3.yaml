@@ -478,6 +478,9 @@ voice_assistant:
   noise_suppression_level: 2
   auto_gain: 31dBFS
   volume_multiplier: 2.0
+  use_wake_word: false
+
+
 
   on_client_connected: # An automation to perform when Home Assistant has connected and is waiting for Voice Assistant commands.
     #- logger.log: "on_client_connected"
@@ -565,7 +568,7 @@ voice_assistant:
         not:
           voice_assistant.is_running:
     - delay: !lambda 'return id(display_duration);'
-    - micro_wake_word.start
+    - micro_wake_word.start # TODO: Find out why this is needed
     - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
     - script.execute: draw_display
   
