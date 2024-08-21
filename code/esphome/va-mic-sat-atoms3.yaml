@@ -113,6 +113,24 @@ globals:
     restore_value: false
     initial_value: ""
 
+  - id: lines_array
+    type: std::vector<std::string>
+
+  - id: line_spacing
+    type: int
+    restore_value: false
+    initial_value: '12'
+
+  - id: line_length
+    type: int
+    restore_value: false
+    initial_value: '20'
+  
+  - id: line_count
+    type: int
+    restore_value: false
+    initial_value: '4'
+
 button:
   - platform: safe_mode
     id: button_safe_mode
@@ -616,9 +634,16 @@ display:
         lambda: |-
           it.fill(id(bg_black_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(micsatellite_thinking), ImageAlign::CENTER);
+
           if (id(display_conversation).state) {
-              it.printf(0, 12, id(font_request), id(request_color), TextAlign::TOP_LEFT, "%s", id(text_request).state.c_str());
-              //it.printf(128, 24, id(font_response), id(timer_color), TextAlign::TOP_LEFT, "%s", id(text_response).state.c_str());
+            //std::string text = id(text_request).state.c_str();
+            id(convertto_multiline)->execute(id(text_request).state.c_str(), id(line_length), id(line_count));
+      
+            int y = 0;
+            for (const auto& line : id(lines_array)) {
+              it.printf(5, y, id(font_request), id(request_color), TextAlign::TOP_LEFT, "%s", line.c_str());
+              y += id(line_spacing); // Adjust this value if needed
+            }
           }
       
       - id: replying_page
@@ -626,8 +651,28 @@ display:
           it.fill(id(bg_black_color));
           it.image((it.get_width() / 2), (it.get_height() / 2), id(micsatellite_replying), ImageAlign::CENTER);
           if (id(display_conversation).state) {
-              it.printf(0, 12, id(font_request), id(request_color), TextAlign::TOP_LEFT, "%s", id(text_request).state.c_str());
-              it.printf(128, 36, id(font_response), id(timer_color), TextAlign::TOP_RIGHT, "%s", id(text_response).state.c_str());
+            // Multi-line request
+            id(convertto_multiline)->execute(id(text_request).state.c_str(), id(line_length), id(line_count));
+      
+            int y = 0;
+            int request_lines_count = 0;
+            for (const auto& line : id(lines_array)) {
+              it.printf(5, y, id(font_request), id(request_color), TextAlign::TOP_LEFT, "%s", line.c_str());
+              y += id(line_spacing); // Adjust this value if needed
+              request_lines_count++;
+            }
+      
+            // Calculate the offset for the response
+            int response_offset = request_lines_count * id(line_spacing);
+      
+            // Multi-line response
+            id(convertto_multiline)->execute(id(text_response).state.c_str(), id(line_length), id(line_count));
+      
+            y = response_offset;
+            for (const auto& line : id(lines_array)) {
+              it.printf(128, y, id(font_response), id(response_color), TextAlign::TOP_RIGHT, "%s", line.c_str());
+              y += id(line_spacing); // Adjust this value if needed
+            }
           }
       
       - id: error_page
@@ -657,6 +702,49 @@ display:
           it.printf(128, 128, id(font_response), id(init_color), TextAlign::BOTTOM_RIGHT, "%s", "Init... Check HA");
 
 script:
+  - id: convertto_multiline
+    parameters:
+      text: string
+      max_line_length: int
+      max_lines: int
+    then:
+      - lambda: |
+            std::string val = text;
+            char* pch = strtok(&val[0], " ");         
+            int line_count = 0;
+            int current_line_length = 0;
+            std::string current_line;
+            std::vector<std::string> lines;
+            
+            while (pch != NULL && line_count < max_lines) {
+                int word_length = strlen(pch);
+                if (current_line_length + word_length + 1 <= max_line_length) {
+                    if (!current_line.empty()) {
+                        current_line += " ";
+                        current_line_length++;
+                    }
+                    current_line += pch;
+                    current_line_length += word_length;
+                } else {
+                    lines.push_back(current_line);
+                    current_line = pch;
+                    current_line_length = word_length;
+                    line_count++;
+                }
+                pch = strtok(NULL, " ");
+            }
+            
+            if (!current_line.empty() && line_count < max_lines) {
+                lines.push_back(current_line);
+                line_count++;
+            }
+
+            // Set the lines to the global variable
+            id(lines_array).clear();
+            for (const auto& line : lines) {
+                id(lines_array).push_back(line);
+            }
+
   - id: play_alarm
     then: 
       - switch.turn_on: timer_ringing
