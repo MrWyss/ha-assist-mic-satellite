@@ -291,7 +291,7 @@ font:
       #italic: true
     glyphs: ${allowed_characters}
     size: 12
-    bpp: 2
+    bpp: 4
   
   - id: font_response
     file:
@@ -300,7 +300,7 @@ font:
       weight: 500
     glyphs: ${allowed_characters}
     size: 12
-    bpp: 2
+    bpp: 4
 
   - id: font_status
     file:
@@ -309,7 +309,7 @@ font:
       weight: 500
     glyphs: ${allowed_characters}
     size: 12
-    bpp: 2
+    bpp: 4
 
 text_sensor:
   - id: text_request
