@@ -271,6 +271,7 @@ font:
       italic: true
     glyphs: ${allowed_characters}
     size: 12
+    bpp: 2
   
   - id: font_response
     file:
@@ -279,14 +280,16 @@ font:
       weight: 300
     glyphs: ${allowed_characters}
     size: 12
+    bpp: 2
 
   - id: font_status
     file:
       type: gfonts
-      family: Roboto+Mono
-      weight: 340
+      family: Inconsolata
+      weight: 500
     glyphs: ${allowed_characters}
-    size: 11
+    size: 12
+    bpp: 2
 
 text_sensor:
   - id: text_request
@@ -444,7 +447,7 @@ microphone:
 micro_wake_word:
   vad:
   models:
-    - model: okay_nabu 
+    - model: okay_nabu
   on_wake_word_detected:
     - voice_assistant.start: 
         wake_word: !lambda return wake_word; 
@@ -713,25 +716,29 @@ display:
           it.printf(128, 128, id(font_response), id(init_color), TextAlign::BOTTOM_RIGHT, "%s", "Init... Check HA");
       - id: status_page
         lambda: |-
-          // Display the project version
-          it.printf(64, 5, id(font_status), id(status_color), TextAlign::CENTER, "Version:%s", id(project_version).state.c_str());
-
-          // Display the IP address below the version
-          it.printf(64, 25, id(font_status), id(status_color), TextAlign::CENTER, "IP:%s", id(ip_address).state.c_str());
-
-          // Display the MAC address below the IP address
-          it.printf(64, 45, id(font_status), id(status_color), TextAlign::CENTER, "MAC:");
-          it.printf(64, 65, id(font_status), id(status_color), TextAlign::CENTER, "%s", id(wifi_mac_address).state.c_str());
-
-          // Display the free memory below the MAC address  
-          // Retrieve the memory value in bytes
+          int spacing = 20;  // Define the spacing between lines
+          int base_y = 15;    // Base y-coordinate
+          auto font = id(font_status);
+          auto color = id(status_color);
+          int center_x = it.get_width() / 2;
           float memory_free_bytes = id(startup_memory_free).state;
-          
-          // Convert to kilobytes and round to the nearest integer
           int memory_free_kb = static_cast<int>((memory_free_bytes / 1024.0) + 0.5);
           
-          // Update the printf call to display the rounded kilobytes value
-          it.printf(64, 85, id(font_status), id(status_color), TextAlign::CENTER, "Free Mem:%d KB", memory_free_kb);
+          // Define the items to display
+          std::vector<std::pair<std::string, std::string>> items = {
+            {"Version:%s", std::string(id(project_version).state.c_str())},
+            {"IP:%s", std::string(id(ip_address).state.c_str())},
+            {"MAC:%s", std::string(id(wifi_mac_address).state.c_str())},
+            {"Free Heap:%s KB", std::to_string(memory_free_kb)},
+            {"MP:%s", std::string(id(mp_id).state.c_str()).substr(13)}
+          };
+          
+
+          // Display the items
+          for (size_t i = 0; i < items.size(); ++i) {
+              it.printf(center_x, base_y + i * spacing, font, color, TextAlign::CENTER, items[i].first.c_str(), items[i].second.c_str());
+          }
+
       - id: easteregg_page
         lambda: |-
           static int center_x = it.get_width() / 2;
