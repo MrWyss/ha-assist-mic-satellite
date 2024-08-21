@@ -715,6 +715,7 @@ display:
             it.image(it.get_width(), 0, id(micsatellite_small), ImageAlign::TOP_RIGHT); 
             it.printf((it.get_width() / 2), ((it.get_height() / 2)-10), id(font_response), id(init_color), TextAlign::CENTER, "Connecting to");
             it.printf((it.get_width() / 2), ((it.get_height() / 2)+10), id(font_response), id(init_color), TextAlign::CENTER, "Home Assistant");
+     
       - id: status_page
         lambda: |-
           int spacing = 20;  // Define the spacing between lines
@@ -733,8 +734,6 @@ display:
             {"Free Heap:%s KB", std::to_string(memory_free_kb)},
             {"MP:%s", std::string(id(mp_id).state.c_str()).substr(13)}
           };
-          
-
           // Display the items
           for (size_t i = 0; i < items.size(); ++i) {
               it.printf(center_x, base_y + i * spacing, font, color, TextAlign::CENTER, items[i].first.c_str(), items[i].second.c_str());
@@ -747,22 +746,16 @@ display:
           static int x = center_x;
           static int y = center_y;
           static int step = 0;
-
-
           // Seed the random number generator
           srand((unsigned) time(0));
-      
           // Update position to shake within a 40-pixel range from the center
           if (step % 30 == 0) {
             x = center_x + (rand() % 81) - 40; // Random value between -40 and 40
             y = center_y + (rand() % 81) - 40; // Random value between -40 and 40
           }
-      
           step += 1;
-      
           // Define yellow color
           Color yellow(255, 255, 0);
-      
           // Draw random yellow lines (stars) moving diagonally from top right to bottom left
           for (int i = 0; i < 15; i++) {
             int star_x = (rand() % it.get_width());
@@ -773,10 +766,8 @@ display:
               it.line(star_x, star_y, star_x + 1, star_y + 1, yellow); // Draw single pixel line
             }
           }
-      
           // Draw the image at the updated position
           it.image(x, y, id(micsatellite_small), ImageAlign::CENTER);
-      
           // Reset position after 30 iterations
           if (step >= 30) {
             x = center_x;
