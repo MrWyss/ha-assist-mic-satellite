@@ -229,9 +229,9 @@ image:
     type: RGB24
     use_transparency: true
   
-  - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_init.png
-    id: micsatellite_init
-    resize: 128x128
+  - file: https://raw.githubusercontent.com/MrWyss/ha-assist-mic-satellite/main/code/esphome/media/animation/MicSatellite.png
+    id: micsatellite_small
+    resize: 48x48
     type: RGB24
     use_transparency: true
 
@@ -652,9 +652,16 @@ display:
 
       - id: initializing_page
         lambda: |-
-          it.fill(id(bg_black_color));
-          it.image((it.get_width() / 2), (it.get_height() / 2), id(micsatellite_init), ImageAlign::CENTER);
-          it.printf(128, 128, id(font_response), id(init_color), TextAlign::BOTTOM_RIGHT, "%s", "Init... Check HA");
+            it.fill(id(bg_black_color));
+            for (int i = 0; i < 10; i++) {
+                int x = rand() % it.get_width();
+                int y = rand() % it.get_height();
+                int length = 3 + rand() % 3; // Random length between 3 and 5 pixels
+                it.line(x, y, x - length, y + length, id(request_color));
+            }
+            it.image(it.get_width(), 0, id(micsatellite_small), ImageAlign::TOP_RIGHT); 
+            it.printf((it.get_width() / 2), ((it.get_height() / 2)-10), id(font_response), id(init_color), TextAlign::CENTER, "Connecting to");
+            it.printf((it.get_width() / 2), ((it.get_height() / 2)+10), id(font_response), id(init_color), TextAlign::CENTER, "Home Assistant");
 
 script:
   - id: play_alarm
