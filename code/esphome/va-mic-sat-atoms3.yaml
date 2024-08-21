@@ -908,43 +908,38 @@ script:
                         api.connected:
                       then:
                         - lambda: |
+                            auto page_id = idle_page;
                             switch(id(voice_assistant_phase)) {
                               case ${voice_assist_listening_phase_id}:
-                                id(s3_lcd).show_page(listening_page);
-                                id(s3_lcd).update();
+                                page_id = listening_page;
                                 break;
                               case ${voice_assist_thinking_phase_id}:
-                                id(s3_lcd).show_page(thinking_page);
-                                id(s3_lcd).update();
+                                page_id = thinking_page;
                                 break;
                               case ${voice_assist_replying_phase_id}:
-                                id(s3_lcd).show_page(replying_page);
-                                id(s3_lcd).update();
+                                page_id = replying_page;
                                 break;
                               case ${voice_assist_error_phase_id}:
-                                id(s3_lcd).show_page(error_page);
-                                id(s3_lcd).update();
+                                page_id = error_page;
                                 break;
                               case ${voice_assist_not_ready_phase_id}:
-                                id(s3_lcd).show_page(no_ha_page);
-                                id(s3_lcd).update();
+                                page_id = no_ha_page;
                                 break;
-                               case ${voice_assist_timer_finished_phase_id}:
-                                id(s3_lcd).show_page(timer_finished_page);
-                                id(s3_lcd).update();
+                              case ${voice_assist_timer_finished_phase_id}:
+                                page_id = timer_finished_page;
                                 break;
-                               case ${voice_assist_easteregg_phase_id}:
-                                id(s3_lcd).show_page(easteregg_page);
-                                id(s3_lcd).update();
+                              case ${voice_assist_easteregg_phase_id}:
+                                page_id = easteregg_page;
                                 break;
-                               case ${voice_assist_status_phase_id}:
-                                id(s3_lcd).show_page(status_page);
-                                id(s3_lcd).update();
-                                break;                                    
+                              case ${voice_assist_status_phase_id}:
+                                page_id = status_page;
+                                break;
                               default:
-                                id(s3_lcd).show_page(idle_page);
-                                id(s3_lcd).update();
+                                page_id = idle_page;
+                                break;
                             }
+                            id(s3_lcd).show_page(page_id);
+                            id(s3_lcd).update();
                       else:
                         - display.page.show: no_ha_page
                         - component.update: s3_lcd
