@@ -60,8 +60,6 @@ logger:
 api:
   on_client_connected: 
     then:
-      - delay: 10s
-      - micro_wake_word.start
       - if:
           condition:
             lambda: return id(init_in_progress);
