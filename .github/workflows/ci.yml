@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     paths:
-      - 'code/esphome/va-mic-sat-atoms3.yaml'
+      - 'code/esphome/va-mic-sat-atoms3'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
