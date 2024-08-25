@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     paths:
-      - 'code/esphome/va-mic-sat-atoms3'
+      - 'code/esphome/va-mic-sat-atoms3.yaml'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
@@ -17,7 +17,7 @@ jobs:
       max-parallel: 3
       matrix:
         file:
-          - code/esphome/va-mic-sat-atoms3.yaml
+          - code/esphome/va-mic-sat-atoms3
         esphome-version:
           - stable
     steps:
