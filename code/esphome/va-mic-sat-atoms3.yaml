@@ -872,6 +872,7 @@ display:
           if (vertical_offset > screen_height + (num_contributors + 1) * spacing) {
             vertical_offset = 0;
           }
+
 script:
   - id: convertto_multiline
     parameters:
