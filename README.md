@@ -12,6 +12,8 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
+>📢 2024-08-25: Firmware release [v1.1.1](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.1) 🎉: bug fixes
+>
 >📢 2024-08-24: Firmware release [v1.1.0](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.0) 🎉: multi-line display, UI improvements, status page, bug fixes
 >
 >📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  [PCB rev. 3](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/15#discussion-7049397) has arrived and tested successfully. 🥳. See the new firmware [in action](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387199) on a [mic stand](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387101) 😆.
@@ -37,8 +39,6 @@ If anyone is interested in contributing, here are some ideas:
 
 - [ ] Option to change the wake word [#7](https://github.com/MrWyss/ha-assist-mic-satellite/issues/7)
 - [ ] Better alarm **sound files** [#10](https://github.com/MrWyss/ha-assist-mic-satellite/issues/10)
-- [ ] Little secret
-- [ ] Fix Bugs [#31](https://github.com/MrWyss/ha-assist-mic-satellite/issues/31) [#30](https://github.com/MrWyss/ha-assist-mic-satellite/issues/30)
   
 ## TL;DR
 
