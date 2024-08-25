@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.1.0"
+  version: "issue30"
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
@@ -566,7 +566,11 @@ voice_assistant:
         not:
           voice_assistant.is_running:
     - delay: !lambda 'return id(display_duration);'
-    - micro_wake_word.start # TODO: Find out why this is needed
+    - if:
+        condition:
+          switch.is_off: mute
+        then:
+          - micro_wake_word.start # TODO: Find out why this is needed
     - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
     - script.execute: draw_display
   
