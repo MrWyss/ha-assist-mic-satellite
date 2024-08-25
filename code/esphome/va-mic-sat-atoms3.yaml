@@ -856,7 +856,7 @@ display:
           int fixed_text_y = screen_height - vertical_offset;
           it.print(fixed_text_x, fixed_text_y, fonts[font_index], id(request_color), TextAlign::CENTER, title);
           font_index = (font_index + 1) % 3; // Cycle through the fonts
-      
+
           // Draw each contributor at fixed y positions with a vertical offset
           for (int i = 0; i < num_contributors; i++) {
             int text_x = screen_width / 2;
@@ -911,7 +911,6 @@ script:
                 lines.push_back(current_line);
             }
 
-            // Set the lines to the global variable
             id(lines_array).clear();
             for (const auto& line : lines) {
                 id(lines_array).push_back(line);
