@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.1.0"
+  version: "issue31"
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
@@ -197,11 +197,11 @@ binary_sensor:
           - logger.log: Double Click
           - lambda: |-
               id(voice_assistant_phase) = ${voice_assist_status_phase_id};
-          - repeat:
-              count: 80
-              then:
-                - script.execute: draw_display
-                - delay: 100ms  # Adjust the delay as needed
+          - script.execute: draw_display
+          - wait_until:
+              condition:
+                binary_sensor.is_on: display_button
+              timeout: 20s
           - lambda: |-
               id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
           - script.execute: draw_display
@@ -217,11 +217,11 @@ binary_sensor:
           - logger.log: Triple Click
           - lambda: |-
               id(voice_assistant_phase) = ${voice_assist_easteregg_phase_id};
-          - repeat:
-              count: 80
-              then:
-                - script.execute: draw_display
-                - delay: 100ms  # Adjust the delay as needed
+          - script.execute: draw_display
+          - wait_until:
+              condition:
+                binary_sensor.is_on: display_button
+              timeout: 20s
           - lambda: |-
               id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
           - script.execute: draw_display
