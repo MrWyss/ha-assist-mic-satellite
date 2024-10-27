@@ -3,7 +3,7 @@ substitutions:
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
-  silence_sound_file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/sounds/10s_silent.wav
+  #silence_sound_file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/sounds/5s_silent.wav
   #timer_sound_file: media-source://media_source/local/timer_finished.mp3
   #silence_sound_file: media-source://media_source/local/10-seconds-of-silence.mp3
   
@@ -517,12 +517,10 @@ voice_assistant:
   on_listening: # An automation to perform when the voice assistant microphone starts listening.
     #- logger.log: "on_listening"
     - homeassistant.service:
-        service: media_player.play_media
+        service: media_player.volume_mute
         data:
           entity_id: !lambda 'return id(mp_id).state.c_str();'
-          media_content_id: ${silence_sound_file}
-          media_content_type: "music"
-          announce: "true"
+          is_volume_muted: "true"
     - lambda: id(voice_assistant_phase) = ${voice_assist_listening_phase_id};
     - text_sensor.template.publish:
         id: text_request
@@ -545,12 +543,16 @@ voice_assistant:
         state: !lambda return x;
     - script.execute: draw_display
 
-
   #on_intent_start: # An automation to perform when intent processing starts.
   #  - logger.log: "on_intent_start"
   
-  #on_intent_end: # An automation to perform when intent processing ends.
-  #  - logger.log: "on_intent_end"
+  on_intent_end: # An automation to perform when intent processing ends.
+    - logger.log: "on_intent_end"
+    - homeassistant.service:
+        service: media_player.volume_mute
+        data:
+          entity_id: !lambda 'return id(mp_id).state.c_str();'
+          is_volume_muted: "false"
   
   on_tts_start: # An automation to perform when the voice assistant has started text-to-speech. The text to be spoken is available to automations as the variable x.
     #- logger.log: "on_tts_start"
@@ -604,6 +606,11 @@ voice_assistant:
         condition:
           lambda: return !id(init_in_progress);
         then:
+          - homeassistant.service:
+              service: media_player.volume_mute
+              data:
+                entity_id: !lambda 'return id(mp_id).state.c_str();'
+                is_volume_muted: "false"
           - lambda: id(voice_assistant_phase) = ${voice_assist_error_phase_id};
           - script.execute: draw_display
           - delay: 2s
