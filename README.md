@@ -12,9 +12,9 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
->📢 2024-08-25: Firmware release [v1.1.1](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.1) 🎉: bug fixes
+>📢 2024-11-21: Firmware release [v1.1.4](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.4) 🎉: ESPHome 2024.11 & Font Update using glyphsets
 >
->📢 2024-08-24: Firmware release [v1.1.0](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.0) 🎉: multi-line display, UI improvements, status page, bug fixes
+>... [Read more](https://github.com/MrWyss/ha-assist-mic-satellite/releases)
 >
 >📢 2024-08-19: Version 1 released. 🎉🎉🎉 and  [PCB rev. 3](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/15#discussion-7049397) has arrived and tested successfully. 🥳. See the new firmware [in action](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387199) on a [mic stand](https://github.com/MrWyss/ha-assist-mic-satellite/discussions/16#discussioncomment-10387101) 😆.
 >
@@ -25,7 +25,7 @@
 A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.html)
 
 - Local / On Device **wake word detection** (😲 holy cow, this works fast and so well)
-- Redirect TTS to a configurable media **media player entity** e.g. SONOS, to play the response
+- Redirect TTS to a configurable **media player entity** e.g. SONOS, to play the response
 - HA **Assist Pipeline integration**
 - Toggle **mute**, toggle **conversation text** and control display **brightness**
 - **Show current state** (listening, idle, request, response) on the display. It is fairly readable, though it requires good eyesight 👀.
