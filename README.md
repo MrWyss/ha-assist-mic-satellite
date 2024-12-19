@@ -12,7 +12,7 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
->📢 2024-11-21: Firmware release [v1.1.4](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.4) 🎉: ESPHome 2024.11 & Font Update using glyphsets
+>📢 2024-12-19: Firmware release [v1.1.5](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.5) 🎉: ESPHome 2024.12.1 & shorter device friendly name
 >
 >... [Read more](https://github.com/MrWyss/ha-assist-mic-satellite/releases)
 >
