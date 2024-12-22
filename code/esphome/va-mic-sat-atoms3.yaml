@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.1.5"
+  version: "v1.1.6"
   
   # Optional
   timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
