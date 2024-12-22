@@ -2,7 +2,7 @@ substitutions:
   version: "v1.1.6"
   
   # Optional
-  timer_sound_file: https://github.com/esphome/firmware/raw/main/voice-assistant/sounds/timer_finished.wav
+  timer_sound_file: https://github.com/esphome/home-assistant-voice-pe/raw/dev/sounds/timer_finished.flac
   #silence_sound_file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/sounds/5s_silent.wav
   #timer_sound_file: media-source://media_source/local/timer_finished.mp3
   #silence_sound_file: media-source://media_source/local/10-seconds-of-silence.mp3
@@ -188,6 +188,7 @@ binary_sensor:
       mode:
         input: true
         pullup: true
+    
     on_multi_click:
       - timing: # Single Click
           - ON for 40ms to 400ms
@@ -198,8 +199,9 @@ binary_sensor:
               condition:
                 switch.is_on: timer_ringing
               then:
-                switch.turn_off: timer_ringing
-      
+                - switch.turn_off: timer_ringing
+                - logger.log: Ringing stopped
+
       - timing: # Double Click
           - ON for 20ms to 400ms
           - OFF for 20ms to 300ms
@@ -941,7 +943,7 @@ script:
                   media_content_id: ${timer_sound_file}
                   media_content_type: "music"
                   announce: "true"
-            - delay: 2s
+            - delay: 3s
       - switch.turn_off: timer_ringing
       - lambda: id(voice_assistant_phase) = ${voice_assist_idle_phase_id};
       - script.execute: draw_display
