@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.1.6"
+  version: "v1.1.7"
   
   # Optional
   timer_sound_file: https://github.com/esphome/home-assistant-voice-pe/raw/dev/sounds/timer_finished.flac
@@ -255,44 +255,44 @@ image:
   - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_error.png
     id: micsatellite_error
     resize: 128x128
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
   
   - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_idle.png
     id: micsatellite_idle
     resize: 128x128
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
   
   - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_idle_mute.png
     id: micsatellite_idle_mute
     resize: 128x128
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
 
   - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_listening.png
     id: micsatellite_listening
     resize: 128x128
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
   
   - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_thinking.png
     id: micsatellite_thinking
     resize: 128x128
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
   
   - file: https://github.com/MrWyss/ha-assist-mic-satellite/raw/main/code/esphome/media/animation/micsatellite_replying.png
     id: micsatellite_replying
     resize: 128x128
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
   
   - file: https://raw.githubusercontent.com/MrWyss/ha-assist-mic-satellite/main/code/esphome/media/animation/MicSatellite.png
     id: micsatellite_small
     resize: 48x48
-    type: RGB24
-    use_transparency: true
+    type: RGB
+    transparency: alpha_channel
 
 font:
   - id: font_request
