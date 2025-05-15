@@ -1,5 +1,5 @@
 substitutions:
-  version: "v1.1.7"
+  version: "v1.1.8"
   
   # Optional
   timer_sound_file: https://github.com/esphome/home-assistant-voice-pe/raw/dev/sounds/timer_finished.flac
@@ -480,6 +480,7 @@ microphone:
     bits_per_sample: 32bit
 
 micro_wake_word:
+  id: mww
   vad:
   models:
     - model: okay_nabu
@@ -494,8 +495,6 @@ voice_assistant:
   auto_gain: 31dBFS
   volume_multiplier: 2.0
   use_wake_word: false
-
-
 
   on_client_connected: # An automation to perform when Home Assistant has connected and is waiting for Voice Assistant commands.
     #- logger.log: "on_client_connected"
