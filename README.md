@@ -12,7 +12,10 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
->📢 2025-5-15: Firmware release [v1.1.8](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v1.1.8) 🎉: ESPHome 2025.4.2
+>📢 2025-10-03: Firmware release [v2.0.0](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v2.0.0) 🎉🎉🎉: **Mayor Release**, this pushes the [M5Stack AtomS3](https://docs.m5stack.com/en/core/AtomS3) to **it's limit**. With these new features 
+> - Option to change from "Okey Nabu" to "Hey Jarvis" and back
+> - "Set Up Voice Assistant" wizard will run on first boot
+> - ESPHome 2025.9.2
 >
 >... [Read more](https://github.com/MrWyss/ha-assist-mic-satellite/releases)
 >
@@ -37,7 +40,7 @@ A ~~tiny~~ Atom version of the [ESP32-S3-BOX](https://esphome.io/projects/index.
 
 If anyone is interested in contributing, here are some ideas:
 
-- [ ] Option to change the wake word [#7](https://github.com/MrWyss/ha-assist-mic-satellite/issues/7)
+
 - [ ] Better alarm **sound files** [#10](https://github.com/MrWyss/ha-assist-mic-satellite/issues/10)
   
 ## TL;DR
@@ -47,7 +50,7 @@ Gather the following items: [M5Stack AtomS3](#bom), [pcb](#pcb), [pin headers an
 
 ## Try it out / Tricks
 
-- **Wake Word**: "Okay Nabu"
+- **Wake Word**: "Okay Nabu" (or "Hey Jarvis")
 - Create a timer, *Create a 3 minute timer for Bananas*, *Cancel Bananas timer*
 - The display itself is also a button, so you can **long press (~800ms) to mute** the device, it stops listening for the wake word. Holding for ~10s factory resets the device.
 - If you have [Music Assistant](https://music-assistant.io) you can change the **announcement volumes**. Goto the Music Assistant Addon -> Settings -> Players -> Your Speaker -> Configure -> Announcements configuration
