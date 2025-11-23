@@ -1,5 +1,5 @@
 substitutions:
-  version: "v2.0.0"
+  version: "v2.0.1"
   
   # Optional
   timer_sound_file: https://github.com/esphome/home-assistant-voice-pe/raw/dev/sounds/timer_finished.flac
@@ -56,6 +56,8 @@ wifi:
 # Enable logging
 logger:
   level: DEBUG
+  baud_rate: 115200
+  tx_buffer_size: 512  # Add buffer limit
 
 # Enable Home Assistant API
 api:
@@ -380,7 +382,7 @@ text:
     on_value:
       then:
         - logger.log:
-            format: "%s"
+            format: "Media Player changed to: %s"
             args: ["x.c_str()"]
         
 
@@ -484,14 +486,23 @@ speaker:
     id: echo_speaker
     i2s_dout_pin: GPIO4
     dac_type: external
+    channel: mono
+    bits_per_sample: 16bit
+    sample_rate: 16000 
+    buffer_duration: 50ms
+
 
 media_player:
   - platform: speaker
     name: None
+    buffer_size: 4000
     id: echo_media_player
+    codec_support_enabled: false
     announcement_pipeline:
       speaker: echo_speaker
       format: WAV
+      num_channels: 1
+      sample_rate: 16000
 
 micro_wake_word:
   on_wake_word_detected:
@@ -688,8 +699,7 @@ voice_assistant:
     - text_sensor.template.publish:
         id: text_response
         state: !lambda |-
-          std::string timer_name = std::string(timer.name.c_str()) + " finished";
-          return timer_name;
+          return std::string(timer.name.c_str()) + " finished";
     - lambda: |-
         ESP_LOGD("main", "Timer finished: Name: %s", timer.name.c_str());
         id(timers_text).clear();     
@@ -906,6 +916,8 @@ script:
       text: string
     then:
       - lambda: |
+            id(lines_array).clear();
+            id(lines_array).reserve(id(max_line_count));
             std::string val = text;
             char* pch = strtok(&val[0], " ");         
             int line_count = 0;

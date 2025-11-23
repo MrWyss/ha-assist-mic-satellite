@@ -12,6 +12,15 @@
 
 ***<p align="center" style="text-align: center;">«The VA Mic Satellite is a compact, ESPHome-based microphone solution designed to integrate with your existing sound setup..»</p>***
 
+## Changes
+
+>📢 2025-11-23: Firmware release [v2.0.1](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v2.0.1) 
+>
+>Memory improvements: 
+>
+> - Allows to run 2 wake words simultaneously
+> - ESPHome 2025.11.0
+> 
 >📢 2025-10-03: Firmware release [v2.0.0](https://github.com/MrWyss/ha-assist-mic-satellite/releases/tag/v2.0.0) 🎉🎉🎉: **Mayor Release**, this pushes the [M5Stack AtomS3](https://docs.m5stack.com/en/core/AtomS3) to **it's limit**. With these new features 
 > - Option to change from "Okey Nabu" to "Hey Jarvis" and back
 > - "Set Up Voice Assistant" wizard will run on first boot
