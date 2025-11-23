@@ -304,7 +304,7 @@ font:
     glyphsets: 
       - GF_Latin_Core
     size: 12
-    bpp: 4
+    bpp: 2
   
   - id: font_response
     file:
@@ -314,7 +314,7 @@ font:
     glyphsets: 
       - GF_Latin_Core
     size: 12
-    bpp: 4
+    bpp: 2
 
   - id: font_status
     file:
@@ -324,7 +324,7 @@ font:
     glyphsets: 
       - GF_Latin_Core
     size: 12
-    bpp: 4
+    bpp: 2
 
 text_sensor:
   - id: text_request
